@@ -8,6 +8,7 @@ const detector = new CleanMailDetector();
 test('verified domain is blocked', () => {
   const result = detector.check('person@playboot.com');
   assert.equal(result.valid, true);
+  assert.equal(result.blocked, true);
   assert.equal(result.disposable, true);
   assert.equal(result.tier, 'verified');
 });
@@ -24,6 +25,7 @@ test('user-provided disposable samples are all blocked', () => {
   ];
   for (const email of emails) {
     const result = detector.check(email);
+    assert.equal(result.blocked, true, email);
     assert.equal(result.disposable, true, email);
     assert.equal(result.tier, 'verified', email);
   }
@@ -56,6 +58,7 @@ test('subdomain matches its parent rule', () => {
 test('allowlist overrides source lists', () => {
   const result = detector.check('person@gmail.com');
   assert.equal(result.valid, true);
+  assert.equal(result.blocked, false);
   assert.equal(result.disposable, false);
   assert.equal(result.tier, 'allowlist');
 });
@@ -63,6 +66,7 @@ test('allowlist overrides source lists', () => {
 test('reserved example domain is not disposable', () => {
   const result = detector.check('person@example.com');
   assert.equal(result.disposable, false);
+  assert.equal(result.blocked, false);
   assert.equal(result.tier, 'allowlist');
 });
 
@@ -76,8 +80,17 @@ test('unknown domain is allowed', () => {
 test('invalid email is reported separately', () => {
   const result = detector.check('not-an-email');
   assert.equal(result.valid, false);
+  assert.equal(result.blocked, true);
   assert.equal(result.disposable, false);
   assert.equal(result.reason, 'invalid_email_syntax');
+});
+
+test('practical syntax check rejects dot and delimiter errors in the local part', () => {
+  for (const email of ['.start@example.com', 'end.@example.com', 'two..dots@example.com', 'name<bad>@example.com']) {
+    const result = detector.check(email);
+    assert.equal(result.valid, false, email);
+    assert.equal(result.blocked, true, email);
+  }
 });
 
 test('IDN domain is normalized', () => {
@@ -99,6 +112,7 @@ test('online check blocks a rotating domain by MX hostname', async () => {
   const first = await onlineDetector.checkOnline('person@fresh-rotation.test');
   const second = await onlineDetector.checkOnline('other@fresh-rotation.test');
   assert.equal(first.disposable, true);
+  assert.equal(first.blocked, true);
   assert.equal(first.tier, 'mx');
   assert.equal(first.matched_mx_pattern, 'yopmail.com');
   assert.equal(second.disposable, true);
@@ -113,6 +127,7 @@ test('online check blocks a rotating domain by dedicated MX IP', async () => {
   });
   const result = await onlineDetector.checkOnline('person@brand-new-temp.test');
   assert.equal(result.disposable, true);
+  assert.equal(result.blocked, true);
   assert.equal(result.tier, 'mx');
   assert.equal(result.matched_mx_ip, '161.35.253.124');
 });
@@ -123,14 +138,29 @@ test('allowlist bypasses online DNS classification', async () => {
   });
   const result = await onlineDetector.checkOnline('person@gmail.com');
   assert.equal(result.disposable, false);
+  assert.equal(result.blocked, false);
   assert.equal(result.tier, 'allowlist');
 });
 
-test('DNS failure keeps the static not-listed result', async () => {
+test('missing MX records are blocked as undeliverable', async () => {
   const onlineDetector = new CleanMailDetector(undefined, {
-    resolveMx: async () => { throw Object.assign(new Error('not found'), { code: 'ENOTFOUND' }); },
+    resolveMx: async () => { throw Object.assign(new Error('no data'), { code: 'ENODATA' }); },
   });
-  const result = await onlineDetector.checkOnline('person@cleanmail-online-test.invalid');
+  const result = await onlineDetector.checkOnline('person@no-mail-server.test');
+  assert.equal(result.valid, true);
+  assert.equal(result.blocked, true);
+  assert.equal(result.disposable, false);
+  assert.equal(result.deliverable, false);
+  assert.equal(result.tier, 'deliverability');
+  assert.equal(result.reason, 'no_mx_records');
+});
+
+test('transient DNS failure keeps the static not-listed result', async () => {
+  const onlineDetector = new CleanMailDetector(undefined, {
+    resolveMx: async () => { throw Object.assign(new Error('temporary failure'), { code: 'ESERVFAIL' }); },
+  });
+  const result = await onlineDetector.checkOnline('person@temporary-dns-failure.test');
+  assert.equal(result.blocked, false);
   assert.equal(result.disposable, false);
   assert.equal(result.reason, 'not_listed');
 });

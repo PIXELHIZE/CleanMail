@@ -3,11 +3,15 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { createCleanMailServer } from './api.js';
+import { CleanMailAnalyzer } from './node-analyzer.js';
 import { CleanMailDetector } from './detector.js';
 
 function usage() {
   console.error(`Usage:
   cleanmail [--data-dir PATH] check [--json] [--offline] EMAIL...
+  cleanmail [--data-dir PATH] analyze [--json] [--smtp] [--catch-all] [--no-rdap]
+            [--block-role] [--block-subaddress] [--block-prohibited]
+            [--risk-threshold 0..10] EMAIL...
   cleanmail [--data-dir PATH] stats [--json]
   cleanmail [--data-dir PATH] serve [--host HOST] [--port PORT]`);
 }
@@ -50,11 +54,59 @@ export async function main(argv = process.argv.slice(2)) {
       console.log(JSON.stringify(results, null, 2));
     } else {
       for (const result of results) {
-        const verdict = result.disposable ? 'BLOCK' : result.valid ? 'ALLOW' : 'INVALID';
+        const verdict = !result.valid ? 'INVALID' : result.blocked ? 'BLOCK' : 'ALLOW';
         console.log(`${verdict.padEnd(7)} ${result.email} (${result.tier || result.reason})`);
       }
     }
-    return results.some((result) => result.disposable || !result.valid) ? 1 : 0;
+    return results.some((result) => result.blocked || !result.valid) ? 1 : 0;
+  }
+
+  if (command === 'analyze') {
+    let rawThreshold;
+    try {
+      rawThreshold = takeOption(args, '--risk-threshold');
+    } catch (error) {
+      console.error(error.message);
+      return 2;
+    }
+    const riskThreshold = rawThreshold === undefined ? undefined : Number(rawThreshold);
+    if (riskThreshold !== undefined && (!Number.isFinite(riskThreshold) || riskThreshold < 0 || riskThreshold > 10)) {
+      console.error('--risk-threshold must be between 0 and 10');
+      return 2;
+    }
+    const flags = new Set(args.filter((arg) => arg.startsWith('--')));
+    const known = new Set([
+      '--json', '--smtp', '--catch-all', '--no-rdap', '--block-role', '--block-subaddress', '--block-prohibited',
+    ]);
+    if ([...flags].some((flag) => !known.has(flag))) {
+      usage();
+      return 2;
+    }
+    const emails = args.filter((arg) => !arg.startsWith('--'));
+    if (emails.length === 0 || (flags.has('--catch-all') && !flags.has('--smtp'))) {
+      usage();
+      return 2;
+    }
+    const analyzer = new CleanMailAnalyzer(detector);
+    const results = await analyzer.analyzeMany(emails, {
+      smtp: flags.has('--smtp'),
+      catchAll: flags.has('--catch-all'),
+      rdap: !flags.has('--no-rdap'),
+      blockRoleAccounts: flags.has('--block-role'),
+      blockSubaddresses: flags.has('--block-subaddress'),
+      blockProhibited: flags.has('--block-prohibited'),
+      riskThreshold,
+    });
+    if (flags.has('--json')) {
+      console.log(JSON.stringify(results, null, 2));
+    } else {
+      for (const result of results) {
+        const verdict = !result.valid ? 'INVALID' : result.blocked ? 'BLOCK' : 'ALLOW';
+        const signalCodes = result.signals.filter((signal) => signal.weight > 0).map((signal) => signal.code).join(',');
+        console.log(`${verdict.padEnd(7)} ${result.email} (risk=${result.risk_score}; ${signalCodes || result.reason})`);
+      }
+    }
+    return results.some((result) => result.blocked || !result.valid) ? 1 : 0;
   }
 
   if (command === 'stats') {

@@ -1,5 +1,6 @@
 import http from 'node:http';
 
+import { CleanMailAnalyzer } from './node-analyzer.js';
 import { CleanMailDetector } from './detector.js';
 
 const MAX_BODY_BYTES = 16 * 1024;
@@ -48,7 +49,7 @@ function readJson(request) {
   });
 }
 
-export function createCleanMailServer(detector = new CleanMailDetector()) {
+export function createCleanMailServer(detector = new CleanMailDetector(), analyzer = new CleanMailAnalyzer(detector)) {
   return http.createServer(async (request, response) => {
     const url = new URL(request.url || '/', 'http://localhost');
 
@@ -69,7 +70,16 @@ export function createCleanMailServer(detector = new CleanMailDetector()) {
       sendJson(response, 200, await detector.checkOnline(emails[0]));
       return;
     }
-    if (request.method !== 'POST' || url.pathname !== '/v1/check') {
+    if (request.method === 'GET' && url.pathname === '/v1/analyze') {
+      const emails = url.searchParams.getAll('email');
+      if (emails.length !== 1) {
+        sendJson(response, 400, { error: 'one email query parameter is required' });
+        return;
+      }
+      sendJson(response, 200, await analyzer.analyze(emails[0]));
+      return;
+    }
+    if (request.method !== 'POST' || !['/v1/check', '/v1/analyze'].includes(url.pathname)) {
       sendJson(response, 404, { error: 'not found' });
       return;
     }
@@ -92,8 +102,33 @@ export function createCleanMailServer(detector = new CleanMailDetector()) {
       sendJson(response, 400, { error: 'JSON object is required' });
       return;
     }
+    const deep = url.pathname === '/v1/analyze';
+    const requestedOptions = payload.options && typeof payload.options === 'object' && !Array.isArray(payload.options)
+      ? payload.options
+      : {};
+    if (
+      url.pathname === '/v1/analyze'
+      && requestedOptions.risk_threshold !== undefined
+      && (!Number.isFinite(requestedOptions.risk_threshold)
+        || requestedOptions.risk_threshold < 0
+        || requestedOptions.risk_threshold > 10)
+    ) {
+      sendJson(response, 400, { error: 'options.risk_threshold must be between 0 and 10' });
+      return;
+    }
+    const analyzeOptions = deep ? {
+      rdap: requestedOptions.rdap !== false,
+      smtp: process.env.CLEANMAIL_ENABLE_SMTP === 'true' && requestedOptions.smtp === true,
+      catchAll: process.env.CLEANMAIL_ENABLE_SMTP === 'true' && requestedOptions.catch_all === true,
+      blockRoleAccounts: requestedOptions.block_role === true,
+      blockSubaddresses: requestedOptions.block_subaddress === true,
+      blockProhibited: requestedOptions.block_prohibited === true,
+      riskThreshold: Number.isFinite(requestedOptions.risk_threshold) ? requestedOptions.risk_threshold : undefined,
+    } : null;
     if (typeof payload.email === 'string') {
-      sendJson(response, 200, await detector.checkOnline(payload.email));
+      sendJson(response, 200, deep
+        ? await analyzer.analyze(payload.email, analyzeOptions)
+        : await detector.checkOnline(payload.email));
       return;
     }
     if (!Array.isArray(payload.emails) || payload.emails.length < 1 || payload.emails.length > MAX_BATCH_SIZE) {
@@ -104,7 +139,9 @@ export function createCleanMailServer(detector = new CleanMailDetector()) {
       sendJson(response, 400, { error: 'every email must be a string' });
       return;
     }
-    const results = await detector.checkManyOnline(payload.emails);
+    const results = deep
+      ? await analyzer.analyzeMany(payload.emails, analyzeOptions)
+      : await detector.checkManyOnline(payload.emails);
     sendJson(response, 200, { results, count: results.length });
   });
 }
