@@ -9,7 +9,7 @@ import { domainToASCII, fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DEFAULT_OUTPUT = path.join(ROOT, 'src', 'cleanmail', 'data');
 const LABEL = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/;
-const BUILDER_POLICY_VERSION = 6;
+const BUILDER_POLICY_VERSION = 7;
 
 const SOURCES = {
   baseline_disposable_email_domains: {
@@ -59,6 +59,62 @@ const SOURCES = {
     license: 'MIT',
     local: 'eramitgupta/disposable_email.txt',
     format: 'lines',
+    minDomains: 100_000,
+  },
+  community_mailchecker: {
+    url: 'https://raw.githubusercontent.com/FGRibreau/mailchecker/master/list.txt',
+    license: 'MIT',
+    local: 'mailchecker/list.txt',
+    format: 'lines',
+    minDomains: 50_000,
+  },
+  community_daisy_jp: {
+    url: 'https://raw.githubusercontent.com/daisy1754/jp-disposable-emails/master/list.txt',
+    license: 'MIT',
+    local: 'jp-disposable-emails/list.txt',
+    format: 'lines',
+    minDomains: 20,
+  },
+  community_rspamd_freemail: {
+    url: 'https://raw.githubusercontent.com/rspamd/maps/master/freemail/disposable.txt',
+    license: 'ISC',
+    local: 'rspamd-maps/freemail/disposable.txt',
+    format: 'lines',
+    minDomains: 1_000,
+  },
+  community_emailondeck: {
+    url: 'https://raw.githubusercontent.com/GeroldSetz/emailondeck.com-domains/master/emailondeck.com_domains_from_bdea.cc.txt',
+    license: 'CC-BY-4.0',
+    local: 'emailondeck/emailondeck.com_domains_from_bdea.cc.txt',
+    format: 'lines',
+    minDomains: 1_000,
+  },
+  community_unkn0w: {
+    url: 'https://raw.githubusercontent.com/unkn0w/disposable-email-domain-list/main/domains.txt',
+    license: 'MIT',
+    local: 'unkn0w/domains.txt',
+    format: 'lines',
+    minDomains: 3_000,
+  },
+  community_email_data: {
+    url: 'https://raw.githubusercontent.com/fnando/email_data/main/data/disposable_domains.txt',
+    license: 'MIT',
+    local: 'email_data/data/disposable_domains.txt',
+    format: 'lines',
+    minDomains: 150_000,
+  },
+  community_castle: {
+    url: 'https://raw.githubusercontent.com/castle/disposable-email-domains/master/disposable-email-domains.txt',
+    license: 'MIT',
+    local: 'castle/disposable-email-domains.txt',
+    format: 'lines',
+    minDomains: 900,
+  },
+  community_tompec: {
+    url: 'https://raw.githubusercontent.com/tompec/disposable-email-domains/main/index.json',
+    license: 'MIT',
+    local: 'tompec/index.json',
+    format: 'json',
     minDomains: 100_000,
   },
 };

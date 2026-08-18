@@ -16,10 +16,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+          cache: npm
+      - name: Install development dependencies
+        run: npm ci
       - name: Rebuild dataset from public sources
         run: node scripts/build-dataset.js
-      - name: Run tests
+      - name: Test Node and Worker runtimes
         run: npm test
+      - name: Validate the fresh Worker bundle
+        run: npm run build:worker
       - name: Commit changed data
         run: |
           if git diff --quiet -- src/cleanmail/data; then
