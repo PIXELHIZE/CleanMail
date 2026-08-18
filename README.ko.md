@@ -15,7 +15,7 @@ CleanMail은 회원가입·인증·쿠폰·무료체험 악용에 쓰이는 일�
 - 문법은 맞지만 MX 레코드가 없는 주소 차단
 - DNS·로컬파트·RDAP 등록정보·인프라·평판·선택형 SMTP 심층 분석
 - 역할 계정·하위 주소·금칙어의 정책별 차단 지원
-- Node.js 프로덕션 의존 패키지와 Worker 저장소/서비스 바인딩 없음
+- Node.js 프로덕션 의존 패키지 없음, Worker 저장소 바인딩은 선택 사항
 - 로컬 개발 및 Wrangler 기준 Node.js 22 이상
 
 | 계층 | 정책 | 개수 |
@@ -141,7 +141,7 @@ Docker 이미지는 Node 구현과 생성 데이터만 복사합니다. `src/wor
 
 ## Cloudflare Workers
 
-Worker는 단독으로 동작합니다. Docker, 원본 서버, KV, D1, R2, Durable Object 또는 다른 바인딩이 필요하지 않습니다. 정적 차단 계층과 MX 지문을 배포 파일에 내장하므로 데이터 갱신 뒤에는 Worker를 다시 빌드하고 배포해야 합니다.
+Worker는 Docker나 원본 서버 없이 단독으로 동작합니다. 기준 차단 계층과 MX 지문을 모든 배포 파일에 내장하므로 기본 구성에는 저장소 바인딩이 필요하지 않습니다. KV, R2, D1은 이후 캐시·텔레메트리·기타 보조 상태에 사용할 수 있지만 런타임 저장소를 차단 규칙의 원천으로 사용하지 않습니다.
 
 로컬 실행:
 
@@ -164,6 +164,14 @@ curl -sS -X POST http://127.0.0.1:8787/v1/check \
 npm run build:worker
 npm run deploy:worker
 ```
+
+최신 공개 원천을 가져와 전체 테스트를 실행하고 새로운 Worker 번들을 생성합니다.
+
+```bash
+npm run refresh:worker
+```
+
+필터 최신화는 항상 새 데이터셋 생성과 Worker 재빌드를 거칩니다. 생성된 변경을 검토한 다음 `npm run deploy:worker`로 해당 번들을 배포합니다.
 
 `wrangler.jsonc`에는 호환 날짜 `2026-08-18`, 지원되는 DNS/URL 유틸리티를 위한 `nodejs_compat`, Workers Observability가 설정되어 있습니다. `worker-configuration.d.ts`는 `npm run types:worker`로 갱신합니다.
 
@@ -198,12 +206,6 @@ node scripts/build-dataset.js --source-root work/research
 6. 정상 MX에 일회용 근거가 없으면 `not_listed`를 반환합니다. 일시적인 DNS 장애와 타임아웃은 기존처럼 허용합니다.
 
 Cloudflare Email Routing, Google Workspace, 범용 호스팅 MX처럼 여러 정상 사용자가 공유하는 인프라는 지문으로 사용하지 않습니다. Emailnator 등이 Gmail/Yahoo 주소를 발급하더라도 공용 도메인 자체를 막으면 정상 사용자가 대량 차단되므로 그렇게 처리하지 않습니다.
-
-## 의도적으로 제외한 판정
-
-성별, 소비자·기업 신용, 비공개 도메인 소유자 신원은 이메일 유효성을 안정적으로 증명하지 못하고 개인정보·편향 문제를 만들므로 추론하지 않습니다. 다크웹 연관성은 신뢰 가능한 별도 침해정보 공급원이 필요해 검증되지 않은 스크래퍼를 넣지 않았습니다. Tor·VPN·위치·데이터센터·연결 유형은 이메일이 아니라 회원가입 요청 IP의 속성이므로 별도 요청 위험 계층에서 처리해야 합니다. 메일 서버 위치 역시 차단 기준으로 사용하지 않습니다. JSON/API 결과는 대시보드에 바로 연결할 수 있지만 UI는 필터 핵심 범위에서 제외했습니다.
-
-도메인 정보는 레거시 WHOIS 대신 RDAP을 사용합니다. 결과에는 등록대행자와 등록자 항목 공개 여부만 담고 공개된 개인 이름도 복제하지 않습니다. RDAP/DNS의 일시 장애는 차단하지 않고 `unavailable` 또는 `timeout`으로 표시합니다.
 
 프로토콜 처리는 [SMTP RFC 5321](https://datatracker.ietf.org/doc/html/rfc5321), [Null MX RFC 7505](https://datatracker.ietf.org/doc/html/rfc7505), [SPF RFC 7208](https://datatracker.ietf.org/doc/html/rfc7208), [DMARC RFC 7489](https://datatracker.ietf.org/doc/html/rfc7489), [MTA-STS RFC 8461](https://datatracker.ietf.org/doc/html/rfc8461), [IANA RDAP DNS 부트스트랩](https://data.iana.org/rdap/dns.json)을 따릅니다.
 

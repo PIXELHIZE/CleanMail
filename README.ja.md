@@ -15,7 +15,7 @@ CleanMail は、使い捨てメールと登録リスクを検出する JavaScrip
 - 構文は正しいが MX レコードが存在しないアドレスを拒否
 - DNS、ローカル部、RDAP 登録情報、インフラ、レピュテーション、任意 SMTP の詳細分析
 - ロールアドレス、サブアドレス、禁止語のポリシー別ブロック
-- Node.js の本番依存パッケージと Worker のストレージ/サービスバインディングなし
+- Node.js の本番依存パッケージなし、Worker ストレージバインディングは任意
 - ローカル開発および Wrangler は Node.js 22 以上
 
 | レイヤー | ポリシー | 件数 |
@@ -141,7 +141,7 @@ Docker イメージは Node 実装と生成済みデータだけをコピーし�
 
 ## Cloudflare Workers
 
-Worker は単独で動作します。Docker、オリジンサーバー、KV、D1、R2、Durable Object、その他のバインディングは不要です。静的ブロックレイヤーと MX 指紋をデプロイに内蔵するため、データ更新後は Worker を再ビルドして再デプロイしてください。
+Worker は Docker やオリジンサーバーなしで単独動作します。基準ブロックレイヤーと MX 指紋をすべてのデプロイに内蔵するため、既定構成にストレージバインディングは不要です。KV、R2、D1 は将来キャッシュ、テレメトリ、その他の補助状態に使用できますが、ランタイムストレージをブロックルールのソースにはしません。
 
 ローカル実行:
 
@@ -164,6 +164,14 @@ curl -sS -X POST http://127.0.0.1:8787/v1/check \
 npm run build:worker
 npm run deploy:worker
 ```
+
+最新の公開ソースを取得し、全テストを実行して新しい Worker バンドルを生成します。
+
+```bash
+npm run refresh:worker
+```
+
+フィルター更新は必ず新しいデータセット生成と Worker 再ビルドを経由します。生成された変更を確認してから `npm run deploy:worker` でそのバンドルを公開します。
 
 `wrangler.jsonc` には互換日 `2026-08-18`、サポート済み DNS/URL ユーティリティ用の `nodejs_compat`、Workers Observability を設定しています。`worker-configuration.d.ts` は `npm run types:worker` で更新します。
 
@@ -198,12 +206,6 @@ node scripts/build-dataset.js --source-root work/research
 6. 正常な MX に使い捨ての根拠がない場合は `not_listed` を返します。一時的な DNS 障害とタイムアウトは fail-open のままです。
 
 Cloudflare Email Routing、Google Workspace、一般的なホスティング MX など、正規ユーザーと共有されるインフラは指紋として使用しません。Gmail や Yahoo のアドレスを発行するサービスがあっても、公開プロバイダー全体をブロックすると大規模な誤検出になるためです。
-
-## 意図的に除外した判定
-
-性別、個人・企業の信用、非公開のドメイン所有者情報はメールの有効性を安定して示さず、プライバシーやバイアスの問題を生むため推測しません。ダークウェブ関連性には信頼できる別の侵害情報ソースが必要です。Tor、VPN、位置、データセンター、接続種別はメールではなく登録リクエスト IP の属性なので、別のリクエストリスク層で扱うべきです。メールサーバーの位置もブロック根拠にしません。JSON/API はダッシュボード接続用データを提供しますが、UI はフィルターコアの範囲外です。
-
-ドメイン情報には従来の WHOIS ではなく RDAP を使います。結果にはレジストラと登録者エンティティの公開有無だけを含め、公開された個人名も複製しません。RDAP/DNS の一時障害はブロックせず `unavailable` または `timeout` として返します。
 
 プロトコル処理は [SMTP RFC 5321](https://datatracker.ietf.org/doc/html/rfc5321)、[Null MX RFC 7505](https://datatracker.ietf.org/doc/html/rfc7505)、[SPF RFC 7208](https://datatracker.ietf.org/doc/html/rfc7208)、[DMARC RFC 7489](https://datatracker.ietf.org/doc/html/rfc7489)、[MTA-STS RFC 8461](https://datatracker.ietf.org/doc/html/rfc8461)、[IANA RDAP DNS ブートストラップ](https://data.iana.org/rdap/dns.json) に従います。
 
