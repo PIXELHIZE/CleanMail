@@ -1,0 +1,27 @@
+# Dedicated MX infrastructure used by rotating disposable-email providers.
+# Matching is suffix-based, so "yopmail.com" also covers smtp.yopmail.com.
+binkmail.com
+cdfaq.com
+cleantempmail.com
+emailfake.com
+email-fake.com
+erinn.biz
+generator.email
+guerrillamail.com
+mail.cx
+mail.gw
+mail.tm
+mail.td
+mail-fake.com
+mail-temp.com
+mailinator.com
+spam4.me
+tempforward.com
+tempm.com
+tempmail.jp
+tempmail.lol
+tempmailbox.net
+tmailor.com
+wabblywabble.com
+wallywatts.com
+yopmail.com

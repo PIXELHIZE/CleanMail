@@ -1,0 +1,33 @@
+name: Update disposable email dataset
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 18 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Rebuild dataset from public sources
+        run: node scripts/build-dataset.js
+      - name: Run tests
+        run: npm test
+      - name: Commit changed data
+        run: |
+          if git diff --quiet -- src/cleanmail/data; then
+            echo "Dataset is already current."
+            exit 0
+          fi
+          git config user.name "cleanmail-data-bot"
+          git config user.email "cleanmail-data-bot@users.noreply.github.com"
+          git add src/cleanmail/data
+          git commit -m "data: refresh disposable email domains"
+          git push

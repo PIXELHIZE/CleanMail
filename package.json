@@ -1,0 +1,23 @@
+{
+  "name": "cleanmail-filter",
+  "version": "0.3.0",
+  "description": "Korean-first disposable email detection service",
+  "type": "module",
+  "private": true,
+  "main": "src/cleanmail/index.js",
+  "exports": "./src/cleanmail/index.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "cleanmail": "src/cleanmail/cli.js"
+  },
+  "scripts": {
+    "build:data": "node scripts/build-dataset.js",
+    "check": "node src/cleanmail/cli.js check",
+    "start": "node src/cleanmail/cli.js serve --host 0.0.0.0 --port 8080",
+    "stats": "node src/cleanmail/cli.js stats --json",
+    "test": "node --test tests/api.test.js tests/dataset.test.js tests/detector.test.js"
+  },
+  "license": "MIT"
+}

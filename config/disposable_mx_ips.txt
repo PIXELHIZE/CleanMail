@@ -1,0 +1,15 @@
+# Dedicated receiver IPs observed across rapidly rotating disposable domains.
+# These are checked only against the resolved address of an MX hostname.
+51.79.50.159
+116.202.9.167
+134.199.177.18
+134.199.177.23
+138.226.240.26
+142.132.166.12
+143.110.211.229
+157.230.203.88
+161.35.253.124
+178.162.170.166
+188.40.237.131
+188.40.237.153
+206.189.155.8

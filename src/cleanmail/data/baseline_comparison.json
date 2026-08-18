@@ -1,0 +1,791 @@
+{
+  "sample": "domains observed live on disposable-mail services",
+  "observed_at": "2026-08-18",
+  "sample_size": 111,
+  "coverage": {
+    "baseline_disposable_email_domains": 12,
+    "baseline_groundcat": 5,
+    "baseline_union": 14,
+    "baseline_intersection": 3,
+    "cleanmail": 111
+  },
+  "rows": [
+    {
+      "domain": "playboot.com",
+      "service": "Temp-Mail",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": "playboot.com"
+    },
+    {
+      "domain": "f5.si",
+      "service": "kuku.lu",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "moakt.cc",
+      "service": "Moakt",
+      "region": "global",
+      "baseline_disposable_email_domains": "moakt.cc",
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "vinakoop.com",
+      "service": "TMailor",
+      "region": "global",
+      "baseline_disposable_email_domains": "vinakoop.com",
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "hidesit.net",
+      "service": "AdGuard Temp Mail",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "suarj.com",
+      "service": "MailPorary",
+      "region": "global",
+      "baseline_disposable_email_domains": "suarj.com",
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "hutdot.com",
+      "service": "10 Minute Email",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": "hutdot.com"
+    },
+    {
+      "domain": "cs.email",
+      "service": "Zudy",
+      "region": "global",
+      "baseline_disposable_email_domains": "cs.email",
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "yzcalo.com",
+      "service": "Temp Mail IO",
+      "region": "global",
+      "baseline_disposable_email_domains": "yzcalo.com",
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "vtmpj.com",
+      "service": "10MinuteMail",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "in.imsimail.com",
+      "service": "ImsiMail",
+      "region": "korea",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "horizonspost.com",
+      "service": "TemporaryMail.com",
+      "region": "global",
+      "baseline_disposable_email_domains": "horizonspost.com",
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "jebqo.top",
+      "service": "TempMail.cv",
+      "region": "korea-search",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "icmans.com",
+      "service": "TempEmail.cc",
+      "region": "korea-search",
+      "baseline_disposable_email_domains": "icmans.com",
+      "baseline_groundcat": "icmans.com"
+    },
+    {
+      "domain": "emalupe.com",
+      "service": "Mail.tm",
+      "region": "korea-search",
+      "baseline_disposable_email_domains": "emalupe.com",
+      "baseline_groundcat": "emalupe.com"
+    },
+    {
+      "domain": "mailyra.com",
+      "service": "Mailyra",
+      "region": "korea",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "invoxica.com",
+      "service": "Mailyra",
+      "region": "korea",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "receivory.com",
+      "service": "Mailyra",
+      "region": "korea",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "go9.co",
+      "service": "Mailyra",
+      "region": "korea",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "tmtm.me",
+      "service": "Mailyra",
+      "region": "korea",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "aigram.kr",
+      "service": "Mailyra",
+      "region": "korea",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "beauturn.com",
+      "service": "Mailyra",
+      "region": "korea",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "leaseyo.kr",
+      "service": "Mailyra",
+      "region": "korea",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "krseller.com",
+      "service": "Mailyra",
+      "region": "korea",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "1004cat.com",
+      "service": "Mailyra",
+      "region": "korea",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "tempmail.freevpnplanet.com",
+      "service": "User-provided disposable sample",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "temp-email.io",
+      "service": "User-provided disposable sample",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "beaconwarp.com",
+      "service": "User-provided disposable sample",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "mailingdragon.com",
+      "service": "User-provided disposable sample",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "imnmail.com",
+      "service": "User-provided disposable sample",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "temp-mail.snaper24.com",
+      "service": "User-provided disposable sample",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "vhm.cc",
+      "service": "VHM MAIL",
+      "region": "korea",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "acucmc.com",
+      "service": "LT의 이메일공방 / 리세마라 공방",
+      "region": "korea",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "gamerhive.xyz",
+      "service": "LT의 이메일공방 / 리세마라 공방",
+      "region": "korea",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "netflow.info",
+      "service": "LT의 이메일공방 / 리세마라 공방",
+      "region": "korea",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "nord.pw",
+      "service": "LT의 이메일공방",
+      "region": "korea",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "maya.pw",
+      "service": "LT의 이메일공방",
+      "region": "korea",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "withu.me",
+      "service": "LT의 이메일공방",
+      "region": "korea",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "zzzzig.com",
+      "service": "Tempo",
+      "region": "korea",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "tomy634.com",
+      "service": "とみーメールJP",
+      "region": "japan",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "tempforward.com",
+      "service": "TempForward",
+      "region": "japan-search",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "emailxo.pro",
+      "service": "Mohmal",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "mohmal.cc",
+      "service": "Mohmal CC",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "mohmal.store",
+      "service": "Mohmal CC",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "mohmal.website",
+      "service": "Mohmal CC",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "growagardencalculator.asia",
+      "service": "Mohmal CC",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "fakeupdatescreen.com",
+      "service": "Mohmal CC",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "trafficrider.cc",
+      "service": "Mohmal CC",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "mohmal.site",
+      "service": "Mohmal CC",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "seostudiotools.in",
+      "service": "Mohmal CC",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "moohmal.com",
+      "service": "Moohmal",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "tempmailplus.net",
+      "service": "CrazyMailing",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "top-fish.net",
+      "service": "TempMailbox / CrazyMailing",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "tempmailbox.net",
+      "service": "TempMailbox / CrazyMailing",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "phyco.org",
+      "service": "TempMailbox / CrazyMailing",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "gowebtools.com",
+      "service": "TempMailbox / CrazyMailing",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "ajaxgptai.com",
+      "service": "TempMailbox / CrazyMailing",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "renewyour.website",
+      "service": "GuerrillaMail",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "scottserver.org",
+      "service": "GuerrillaMail",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "hinippon.com",
+      "service": "GuerrillaMail",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "verypaid.com",
+      "service": "GuerrillaMail",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "yermail.net",
+      "service": "GuerrillaMail",
+      "region": "global",
+      "baseline_disposable_email_domains": "yermail.net",
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "totallynotfake.net",
+      "service": "GuerrillaMail",
+      "region": "global",
+      "baseline_disposable_email_domains": "totallynotfake.net",
+      "baseline_groundcat": "totallynotfake.net"
+    },
+    {
+      "domain": "spamthis.network",
+      "service": "GuerrillaMail",
+      "region": "global",
+      "baseline_disposable_email_domains": "spamthis.network",
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "cdfaq.com",
+      "service": "10MinuteMail.net",
+      "region": "global",
+      "baseline_disposable_email_domains": "cdfaq.com",
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "10minutemail.one",
+      "service": "10MinuteMail.one",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "oqqaj.com",
+      "service": "10MinuteMail.one",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "xghff.com",
+      "service": "10MinuteMail.one",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "psovv.com",
+      "service": "10MinuteMail.one",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "obeamb.com",
+      "service": "10MinuteMail.one",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "witusp.com",
+      "service": "10MinuteMail.one",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "zorrag.com",
+      "service": "10MinuteMail.one",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "cleantempmail.com",
+      "service": "CleanTempMail",
+      "region": "japan-search",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "mail.cx",
+      "service": "mail.cx",
+      "region": "japan-search",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "mail.td",
+      "service": "mail.cx",
+      "region": "japan-search",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "9k3r.com",
+      "service": "mail.cx",
+      "region": "japan-search",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "yxhost.cn",
+      "service": "mail.cx",
+      "region": "japan-search",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "ddker.com",
+      "service": "mail.cx",
+      "region": "japan-search",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "sugtbt.com",
+      "service": "mail.cx",
+      "region": "japan-search",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "sssssssss.com",
+      "service": "mail.cx",
+      "region": "japan-search",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "linshiyouxiang.com",
+      "service": "mail.cx",
+      "region": "japan-search",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "promailtor.com",
+      "service": "Emailnator",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "premiumnator.com",
+      "service": "Emailnator",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "miho.uk",
+      "service": "kuku.lu / InstAddr",
+      "region": "japan",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "catcat.uk",
+      "service": "kuku.lu / InstAddr",
+      "region": "japan",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "savatv.com",
+      "service": "kuku.lu / InstAddr",
+      "region": "japan",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "kywa.uk",
+      "service": "kuku.lu / InstAddr",
+      "region": "japan",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "vps42.erinn.biz",
+      "service": "kuku.lu / InstAddr",
+      "region": "japan",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "nemomo.org",
+      "service": "kuku.lu / InstAddr",
+      "region": "japan",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "mepo.uk",
+      "service": "kuku.lu / InstAddr",
+      "region": "japan",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "recv19.erinn.biz",
+      "service": "kuku.lu / InstAddr",
+      "region": "japan",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "vracv.com",
+      "service": "NiceMail / MailPorary",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "cobmk.com",
+      "service": "NiceMail / MailPorary",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "dhwem.com",
+      "service": "NiceMail / MailPorary",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "bakjd.com",
+      "service": "NiceMail / MailPorary",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "zod.edu.pl",
+      "service": "NiceMail / MailPorary",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "jokwe.com",
+      "service": "NiceMail / MailPorary",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "myfmcast.com",
+      "service": "Temp-Mail.org",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "siponly.com",
+      "service": "Temp-Mail.org",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "wqeather.com",
+      "service": "Temp-Mail.org",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "tainela.com",
+      "service": "Temp-Mail.org",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "svndemo.com",
+      "service": "Temp-Mail.org",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "webkugel.com",
+      "service": "Temp-Mail.org",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "xhseeds.com",
+      "service": "Temp-Mail.org",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "tongtode.com",
+      "service": "Temp-Mail.org",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "sudaley.com",
+      "service": "Temp-Mail.org",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "wudiart.com",
+      "service": "Temp-Mail.org",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "vicitro.com",
+      "service": "Temp-Mail.org",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "ywbin.com",
+      "service": "Temp-Mail.org",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "gouziben.com",
+      "service": "Temp-Mail.org",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    },
+    {
+      "domain": "sealjump.com",
+      "service": "Temp-Mail.org",
+      "region": "global",
+      "baseline_disposable_email_domains": null,
+      "baseline_groundcat": null
+    }
+  ]
+}

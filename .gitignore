@@ -1,0 +1,8 @@
+node_modules/
+coverage/
+npm-debug.log*
+__pycache__/
+*.py[cod]
+dist/
+build/
+work/
