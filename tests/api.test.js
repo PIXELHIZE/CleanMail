@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { after, before, test } from 'node:test';
 
 import { createCleanMailServer } from '../src/cleanmail/api.js';
+import { CleanMailDetector } from '../src/cleanmail/detector.js';
 
 let server;
 let baseUrl;
@@ -56,4 +57,56 @@ test('oversized declared body is rejected', async () => {
     body: 'x'.repeat(16 * 1024 + 1),
   });
   assert.equal(response.status, 413);
+});
+
+test('API blocks a syntactically valid domain with no MX records', async () => {
+  const detector = new CleanMailDetector(undefined, {
+    resolveMx: async () => { throw Object.assign(new Error('no data'), { code: 'ENODATA' }); },
+  });
+  const temporaryServer = createCleanMailServer(detector);
+  await new Promise((resolve, reject) => {
+    temporaryServer.once('error', reject);
+    temporaryServer.listen(0, '127.0.0.1', resolve);
+  });
+  try {
+    const { address, port } = temporaryServer.address();
+    const response = await fetch(`http://${address}:${port}/v1/check?email=user%40no-mx.test`);
+    const payload = await response.json();
+    assert.equal(payload.blocked, true);
+    assert.equal(payload.disposable, false);
+    assert.equal(payload.deliverable, false);
+    assert.equal(payload.reason, 'no_mx_records');
+  } finally {
+    await new Promise((resolve) => temporaryServer.close(resolve));
+  }
+});
+
+test('deep analysis endpoint is wired to the analyzer', async () => {
+  const fakeAnalyzer = {
+    analyze: async (email) => ({ email, blocked: true, risk_score: 8, reason: 'high_risk_score' }),
+    analyzeMany: async (emails) => emails.map((email) => ({ email, blocked: false, risk_score: 1 })),
+  };
+  const temporaryServer = createCleanMailServer(new CleanMailDetector(), fakeAnalyzer);
+  await new Promise((resolve, reject) => {
+    temporaryServer.once('error', reject);
+    temporaryServer.listen(0, '127.0.0.1', resolve);
+  });
+  try {
+    const { address, port } = temporaryServer.address();
+    const response = await fetch(`http://${address}:${port}/v1/analyze?email=odd%40example.test`);
+    const payload = await response.json();
+    assert.equal(payload.blocked, true);
+    assert.equal(payload.risk_score, 8);
+  } finally {
+    await new Promise((resolve) => temporaryServer.close(resolve));
+  }
+});
+
+test('deep analysis endpoint validates the risk threshold', async () => {
+  const response = await fetch(`${baseUrl}/v1/analyze`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ email: 'user@example.com', options: { risk_threshold: -1 } }),
+  });
+  assert.equal(response.status, 400);
 });
