@@ -22,6 +22,7 @@
     "stats": "node src/cleanmail/cli.js stats --json",
     "dev:worker": "wrangler dev",
     "build:worker": "wrangler deploy --dry-run --outdir dist/worker",
+    "refresh:worker": "npm run build:data && npm test && npm run build:worker",
     "deploy:worker": "wrangler deploy",
     "types:worker": "wrangler types worker-configuration.d.ts --include-runtime=false",
     "test:node": "node --test tests/api.test.js tests/analyzer.test.js tests/dataset.test.js tests/detector.test.js tests/smtp.test.js tests/worker-handler.test.js",

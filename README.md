@@ -16,7 +16,7 @@ CleanMail is a Korean-first disposable email and signup-risk detector written in
 - Deep DNS, local-part, RDAP registration, infrastructure, reputation, and optional SMTP analysis
 - Configurable blocking for role accounts, subaddresses, and prohibited local-part tokens
 - Existing protections for legitimate providers such as Gmail, Naver, Daum, and Yahoo
-- No Node.js production dependencies and no Worker storage/service bindings
+- No Node.js production dependencies; Worker storage bindings are optional
 - Node.js 22 or newer for local development and Wrangler
 
 The generated dataset metadata in `src/cleanmail/data/metadata.json` is the authoritative source for current counts.
@@ -165,7 +165,7 @@ The image intentionally copies only the Node implementation and generated data. 
 
 ## Cloudflare Workers
 
-The Worker is standalone: it needs no Docker container, origin server, KV, D1, R2, Durable Object, or other binding. The static block tiers and MX fingerprints are bundled into the deployment. Rebuild and redeploy the Worker after updating the dataset.
+The Worker is standalone and needs no Docker container or origin server. The canonical block tiers and MX fingerprints are bundled into every deployment, so the default configuration does not require a storage binding. KV, R2, or D1 can be added later for caches, telemetry, or other auxiliary state, but runtime storage is not the source of block rules.
 
 Run it locally:
 
@@ -188,6 +188,14 @@ Build without deploying, then deploy when the result is ready:
 npm run build:worker
 npm run deploy:worker
 ```
+
+Fetch the current public sources, run all tests, and create a fresh Worker bundle:
+
+```bash
+npm run refresh:worker
+```
+
+Filter updates always go through a new generated dataset and Worker build. After reviewing the generated changes, run `npm run deploy:worker` to publish that bundle.
 
 `wrangler.jsonc` uses the `2026-08-18` compatibility date, `nodejs_compat` for the supported DNS and URL utilities, and Workers Observability. `worker-configuration.d.ts` is generated with `npm run types:worker`.
 
@@ -228,12 +236,6 @@ Manual block evidence lives in `config/verified_domains.json`. Dedicated rotatin
 6. Return `not_listed` when a working MX has no disposable evidence. Transient DNS failures and timeouts remain fail-open.
 
 Shared infrastructure such as Cloudflare Email Routing, Google Workspace, and generic hosting-provider MX servers is not fingerprinted. Blocking those shared systems would create severe false positives. Services that issue Gmail or Yahoo addresses cannot be safely detected by blocking the public provider domain itself.
-
-## Deliberate boundaries
-
-CleanMail does not infer gender, consumer/business credit, or private registrant identity. Those are not reliable email-validity signals and create privacy or bias problems. Dark-web association requires a licensed breach/intelligence source, so no unverified scraper is bundled. Tor, VPN, geolocation, data-center, and connection-type checks describe the signup IP—not the email address—and belong in a separate request-context risk layer. Mail-server geolocation is likewise not used as a block rule. The JSON report and API provide dashboard-ready data, but a UI is outside the filtering core.
-
-RDAP is used instead of legacy WHOIS and public registrant personal data is not copied into results; CleanMail reports the registrar and whether a registrant entity was disclosed. RDAP and transient DNS failures fail open and are shown as unavailable/timeout signals.
 
 Protocol behavior follows [SMTP RFC 5321](https://datatracker.ietf.org/doc/html/rfc5321), [Null MX RFC 7505](https://datatracker.ietf.org/doc/html/rfc7505), [SPF RFC 7208](https://datatracker.ietf.org/doc/html/rfc7208), [DMARC RFC 7489](https://datatracker.ietf.org/doc/html/rfc7489), [MTA-STS RFC 8461](https://datatracker.ietf.org/doc/html/rfc8461), and the [IANA RDAP DNS bootstrap registry](https://data.iana.org/rdap/dns.json).
 
