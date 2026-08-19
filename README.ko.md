@@ -8,22 +8,22 @@ CleanMail은 회원가입·인증·쿠폰·무료체험 악용에 쓰이는 일�
 
 ## 주요 수치
 
-- 정적 고유 차단 도메인: **102,827개**
+- 정적 고유 차단 도메인: **188,134개**
 - 실서비스·사용 표본·공급자 인프라로 검증: **111개**
 - 회전형 서비스 MX 호스트 지문: **25개**
 - 전용 MX 수신 IP 지문: **13개**
 - 문법은 맞지만 MX 레코드가 없는 주소 차단
 - DNS·로컬파트·RDAP 등록정보·인프라·평판·선택형 SMTP 심층 분석
 - 역할 계정·하위 주소·금칙어의 정책별 차단 지원
-- Node.js 프로덕션 의존 패키지 없음, Worker 저장소 바인딩은 선택 사항
+- Node.js 프로덕션 의존 패키지 없음, Worker 캐시에 KV·R2·D1 바인딩 불필요
 - 로컬 개발 및 Wrangler 기준 Node.js 22 이상
 
 | 계층 | 정책 | 개수 |
 |---|---|---:|
 | `core` | 두 기준 저장소의 정확한 교집합 | 1,846 |
-| `community` | 외부 공개 입력 중 2개 이상에 존재, `core` 제외 | 100,887 |
+| `community` | 외부 공개 입력 중 2개 이상에 존재, `core` 제외 | 186,206 |
 | `verified` | 실제 발급·선택기·API·사용 표본·MX 근거로 확인 | 111 |
-| 최종 고유 정적 차단 | 위 세 차단 계층의 합집합 | **102,827** |
+| 최종 고유 정적 차단 | 위 세 차단 계층의 합집합 | **188,134** |
 
 ## 실행 대상 선택
 
@@ -32,7 +32,7 @@ CleanMail은 회원가입·인증·쿠폰·무료체험 악용에 쓰이는 일�
 | Node.js / Docker | CLI, Node HTTP API, DNS/RDAP, 선택형 직접 SMTP 검사, 내장 데이터 | Worker 진입점 | 명시적으로 켤 때 사용 가능 |
 | Cloudflare Workers | Fetch API, DNS/RDAP, 위험 분석기, 내장 데이터 | CLI, Node HTTP 서버, 파일 로더, 직접 SMTP 구현 | Workers의 외부 25번 포트 제한으로 지원 불가 |
 
-두 대상은 함께 구동하는 서비스가 아니라 서로 다른 빌드 그래프입니다. Docker 이미지는 `src/cleanmail`만 복사합니다. Wrangler는 `src/worker/entry.js`의 import 그래프만 묶기 때문에 Worker 결과물에는 공용 탐지기·분석기·데이터만 들어가고 Node 서버와 실제 SMTP 구현은 들어가지 않습니다. 현재 Worker dry-run 결과는 원본 1,585.26KiB, gzip 580.75KiB입니다.
+두 대상은 함께 구동하는 서비스가 아니라 서로 다른 빌드 그래프입니다. Docker 이미지는 `src/cleanmail`만 복사합니다. Wrangler는 `src/worker/entry.js`의 import 그래프만 묶기 때문에 Worker 결과물에는 공용 탐지기·분석기·데이터만 들어가고 Node 서버와 실제 SMTP 구현은 들어가지 않습니다. 현재 Worker dry-run 결과는 원본 2,884.04KiB, gzip 1,046.30KiB입니다.
 
 111개 검증 표본에서 `disposable-email-domains`는 12개, `groundcat`은 5개를 탐지했습니다. 둘의 합집합은 14개, 교집합은 3개였습니다. 최신 누락값을 의도적으로 포함한 표본이므로 인터넷 전체 탐지율로 해석하면 안 됩니다.
 
@@ -75,7 +75,7 @@ if (result.blocked) {
 - `check()` / `checkMany()`는 동기식 정적 검사입니다.
 - `checkOnline()` / `checkManyOnline()`은 정적 검사 후 필요할 때만 DNS를 조회합니다.
 - MX가 없는 도메인은 `blocked=true, disposable=false, deliverable=false, reason="no_mx_records"`로 반환합니다.
-- 장기 실행 Node 프로세스에서는 DNS 결과를 기본 6시간 캐시하며 조회 단계별 제한 시간은 2.5초입니다. Worker의 요청 상태는 다음 호출에 재사용하지 않습니다.
+- 장기 실행 Node 프로세스에서는 DNS 결과를 기본 6시간 캐시하며 조회 단계별 제한 시간은 2.5초입니다. Worker는 공개 도메인 인프라 결과만 내장 Cache API에 저장합니다.
 - MX 판정은 `tier="mx"`와 `matched_mx`, `matched_mx_pattern` 또는 `matched_mx_ip`를 반환합니다.
 
 심층 분석에는 `CleanMailAnalyzer`를 사용합니다.
@@ -141,7 +141,7 @@ Docker 이미지는 Node 구현과 생성 데이터만 복사합니다. `src/wor
 
 ## Cloudflare Workers
 
-Worker는 Docker나 원본 서버 없이 단독으로 동작합니다. 기준 차단 계층과 MX 지문을 모든 배포 파일에 내장하므로 기본 구성에는 저장소 바인딩이 필요하지 않습니다. KV, R2, D1은 이후 캐시·텔레메트리·기타 보조 상태에 사용할 수 있지만 런타임 저장소를 차단 규칙의 원천으로 사용하지 않습니다.
+Worker는 Docker, 원본 서버, 저장소 바인딩 없이 단독으로 동작합니다. 기준 차단 계층과 MX 지문은 배포 파일에 내장되며 필터 최신화 때마다 새로 빌드하고 배포합니다. 내장 Cache API는 공개 DNS·RDAP 인프라 결과에만 사용합니다.
 
 로컬 실행:
 
@@ -179,10 +179,13 @@ npm run refresh:worker
 
 - 정적 목록이나 정상 공급자 보호 규칙에 걸리면 DNS/RDAP 네트워크 호출 없이 끝납니다.
 - 미등록 도메인은 Workers가 지원하는 `node:dns`로 조회하며 DNS 작업마다 Worker 하위 요청을 사용합니다.
-- 심층 분석은 IANA RDAP 부트스트랩과 담당 레지스트리를 호출할 수 있습니다. 공용 IANA 부트스트랩만 Cache API에 저장하고 도메인별 RDAP 결과는 공유 캐시에 남기지 않습니다.
+- DNS/MX 성공 결과는 1시간, 영구적인 DNS 부재 응답은 5분 캐시합니다. 타임아웃과 일시 장애는 캐시하지 않습니다.
+- 심층 분석의 도메인 RDAP 결과는 6시간, IANA 부트스트랩은 24시간, RDAP 404/410 응답은 5분 캐시합니다.
+- 캐시에는 정규화한 공개 도메인, DNS 레코드 유형, 공개 메일 호스트 결과, RDAP URL만 들어갑니다. 전체 이메일 주소와 로컬 파트는 캐시 키나 값에 저장하지 않습니다.
+- Cloudflare Cache API 캐시는 데이터센터별 임시 저장소이며 KV·R2·D1 설정이 필요하지 않습니다.
 - Workers는 외부 TCP 25번 포트를 막으므로 직접 SMTP 수신자·캐치올 검사가 불가능합니다. 이 선택 기능이 필요하면 Node/Docker 대상을 사용해야 합니다.
 - JSON 본문은 16KiB, 일괄 검사는 요청당 100개로 제한합니다.
-- 검증/교집합/커뮤니티 집합은 읽기 전용 모듈 설정이며 DNS Promise와 분석 캐시는 요청 안에서만 유지합니다.
+- 검증/교집합/커뮤니티 집합은 읽기 전용 모듈 설정입니다. 요청별 분석기는 진행 중인 중복 작업만 합치며 요청에 묶인 I/O 객체를 전역에 두지 않습니다.
 
 ## 데이터 재생성
 
@@ -211,7 +214,7 @@ Cloudflare Email Routing, Google Workspace, 범용 호스팅 MX처럼 여러 정
 
 ## 데이터 원천
 
-기준 저장소는 [disposable-email-domains/disposable-email-domains](https://github.com/disposable-email-domains/disposable-email-domains)와 [groundcat/disposable-email-domain-list](https://github.com/groundcat/disposable-email-domain-list)입니다. 추가 공개 입력과 라이선스는 `THIRD_PARTY_NOTICES.md`, 한국·일본 집중 조사 기록은 `docs/research-2026-08-18.md`에 정리되어 있습니다.
+기준 저장소는 [disposable-email-domains/disposable-email-domains](https://github.com/disposable-email-domains/disposable-email-domains)와 [groundcat/disposable-email-domain-list](https://github.com/groundcat/disposable-email-domain-list)입니다. 커뮤니티 입력은 13개이며 MailChecker, 일본 전용 `jp-disposable-emails`, Rspamd freemail, EmailOnDeck 전용 목록, unkn0w, `email_data`, Castle, tompec 등을 포함합니다. 추가 공개 입력과 라이선스는 `THIRD_PARTY_NOTICES.md`, 한국·일본 집중 조사 기록은 `docs/research-2026-08-18.md`에 정리되어 있습니다.
 
 ## 테스트
 
@@ -221,8 +224,8 @@ npm run test:worker
 npm run build:worker
 ```
 
-Node 테스트 43개와 실제 Cloudflare Workers 런타임에서 실행하는 테스트 5개가 있습니다. 문법 정규화, 하위 도메인, 검증 표본, MX 호스트·IP, DNS 실패, 로컬파트 위험 신호, RDAP, 공인 IP 안전장치, SMTP·캐치올, 데이터 무결성, 두 HTTP 처리기, Worker 기동과 내장 데이터 로드를 검사합니다. `npm run build:worker`는 배포하지 않는 Wrangler 번들을 만들며 `npx wrangler check startup`으로 로컬 기동 비용을 분석할 수 있습니다.
+Node 테스트 48개와 실제 Cloudflare Workers 런타임에서 실행하는 테스트 5개가 있습니다. 문법 정규화, 하위 도메인, 검증 표본, MX 호스트·IP, DNS 실패, 로컬파트 위험 신호, RDAP, 공인 IP 안전장치, SMTP·캐치올, 데이터 무결성, 캐시 성공·부재·일시 장애·실패 시 우회 처리, 두 HTTP 처리기, Worker 기동과 내장 데이터 로드를 검사합니다. `npm run build:worker`는 배포하지 않는 Wrangler 번들을 만듭니다.
 
 ## 라이선스
 
-CleanMail 코드는 MIT 라이선스입니다. 결합 데이터에는 각 원천의 CC0, MIT, BSD-3-Clause 조건이 적용됩니다.
+CleanMail 코드는 MIT 라이선스입니다. 결합 데이터에는 각 원천의 CC0, MIT, BSD-3-Clause, ISC, CC-BY-4.0 조건이 적용됩니다.

@@ -16,6 +16,12 @@ The work is dedicated to the public domain under CC0 1.0. Legal code: https://cr
 - `wesbos/burner-email-providers` — Copyright 2018 Wes Bos
 - `email-check-app/disposable-email-providers` — Copyright © 2021 EMAIL-CHECK.APP
 - `eramitgupta/disposable-email` — Copyright (c) 2026 Er Amit Gupta
+- `FGRibreau/mailchecker` — Copyright (c) 2013 Francois-Guillaume Ribreau
+- `daisy1754/jp-disposable-emails` — Copyright (c) 2021 Kazuki Nishiura
+- `unkn0w/disposable-email-domain-list` — Copyright (c) 2022 Jakub 'unknow' Mrugalski
+- `fnando/email_data` — Copyright (c) 2020 Nando Vieira
+- `castle/disposable-email-domains` — Copyright (c) 2026 Castle
+- `tompec/disposable-email-domains` — Copyright (c) 2017 Ilya Volodarsky; Copyright (c) 2025 Thomas Petracco
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -64,3 +70,30 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+## ISC-licensed source
+
+- `rspamd/maps` (`freemail/disposable.txt`) — Copyright (c) 2015, Will White <will@mapbox.com>
+- Source: https://github.com/rspamd/maps/tree/master/freemail
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+## CC-BY-4.0 source
+
+- `GeroldSetz/emailondeck.com-domains`
+- Source: https://github.com/GeroldSetz/emailondeck.com-domains
+- License: https://creativecommons.org/licenses/by/4.0/legalcode
+
+CleanMail normalizes, deduplicates, sorts, and intersects this source with
+other public inputs. The resulting combined files therefore contain modified
+and selected data rather than a verbatim copy.

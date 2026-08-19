@@ -8,7 +8,7 @@ CleanMail is a Korean-first disposable email and signup-risk detector written in
 
 ## Highlights
 
-- 102,827 unique statically blocked domains
+- 188,134 unique statically blocked domains
 - 111 domains verified from live issuance, selectors, public APIs, supplied samples, or corroborated provider infrastructure
 - 25 dedicated MX hostname fingerprints and 13 receiver IP fingerprints for rotating domains
 - Parent-domain suffix matching for disposable subdomains
@@ -16,7 +16,7 @@ CleanMail is a Korean-first disposable email and signup-risk detector written in
 - Deep DNS, local-part, RDAP registration, infrastructure, reputation, and optional SMTP analysis
 - Configurable blocking for role accounts, subaddresses, and prohibited local-part tokens
 - Existing protections for legitimate providers such as Gmail, Naver, Daum, and Yahoo
-- No Node.js production dependencies; Worker storage bindings are optional
+- No Node.js production dependencies; the Worker cache needs no KV, R2, or D1 binding
 - Node.js 22 or newer for local development and Wrangler
 
 The generated dataset metadata in `src/cleanmail/data/metadata.json` is the authoritative source for current counts.
@@ -28,16 +28,16 @@ The generated dataset metadata in `src/cleanmail/data/metadata.json` is the auth
 | Node.js / Docker | CLI, Node HTTP API, DNS/RDAP, optional direct SMTP probe, embedded data | Worker entry point | Available, opt-in |
 | Cloudflare Workers | Fetch API handler, DNS/RDAP, risk analyzer, embedded data | CLI, Node HTTP server, filesystem loader, direct SMTP implementation | Unsupported because Workers cannot connect to outbound port 25 |
 
-These are separate build graphs, not two services that must run together. The Docker image copies only `src/cleanmail`. Wrangler follows imports from `src/worker/entry.js`, so the generated Worker contains the shared detector/analyzer and data but not the Node server or SMTP implementation. The current Worker dry-run upload is 1,585.26 KiB raw and 580.75 KiB gzip.
+These are separate build graphs, not two services that must run together. The Docker image copies only `src/cleanmail`. Wrangler follows imports from `src/worker/entry.js`, so the generated Worker contains the shared detector/analyzer and data but not the Node server or SMTP implementation. The current Worker dry-run upload is 2,884.04 KiB raw and 1,046.30 KiB gzip.
 
 ## Detection tiers
 
 | Tier | Policy | Count |
 |---|---|---:|
 | `core` | Exact intersection of the two baseline repositories | 1,846 |
-| `community` | Present in at least two public community inputs, excluding `core` | 100,887 |
+| `community` | Present in at least two public community inputs, excluding `core` | 186,206 |
 | `verified` | Confirmed through live services, supplied samples, or provider/MX evidence | 111 |
-| Unique static block set | Union of the three block tiers | **102,827** |
+| Unique static block set | Union of the three block tiers | **188,134** |
 | `mx` hostname fingerprints | Dedicated infrastructure used by rotating providers | 25 |
 | `mx` IP fingerprints | Receiver IPs used only after resolving an MX host | 13 |
 
@@ -84,7 +84,7 @@ if (result.blocked) {
 - `check(email)` and `checkMany(emails)` are synchronous and static-only.
 - `checkOnline(email)` and `checkManyOnline(emails)` check static data first and query DNS only when necessary.
 - A domain with no MX records is returned as `blocked=true, disposable=false, deliverable=false, reason="no_mx_records"`.
-- In a long-running Node process, online DNS results are cached for six hours by default, with a 2.5-second timeout per lookup phase. Worker request state is not reused across invocations.
+- In a long-running Node process, online DNS results are cached for six hours by default, with a 2.5-second timeout per lookup phase. Workers cache only public domain infrastructure through the built-in Cache API.
 - An MX match returns `tier: "mx"` plus `matched_mx`, `matched_mx_pattern`, or `matched_mx_ip`.
 
 For a full assessment, use `CleanMailAnalyzer`:
@@ -165,7 +165,7 @@ The image intentionally copies only the Node implementation and generated data. 
 
 ## Cloudflare Workers
 
-The Worker is standalone and needs no Docker container or origin server. The canonical block tiers and MX fingerprints are bundled into every deployment, so the default configuration does not require a storage binding. KV, R2, or D1 can be added later for caches, telemetry, or other auxiliary state, but runtime storage is not the source of block rules.
+The Worker is standalone and needs no Docker container, origin server, or storage binding. The canonical block tiers and MX fingerprints are bundled into every deployment. Filter updates always rebuild and redeploy this embedded dataset; the built-in Cache API is used only for public DNS and RDAP infrastructure results.
 
 Run it locally:
 
@@ -203,10 +203,13 @@ Operational details:
 
 - Static/allowlist matches complete without DNS or RDAP network calls.
 - Unknown domains use Cloudflare's supported `node:dns` resolver; each DNS operation counts as a Worker subrequest.
-- Deep analysis may fetch the IANA RDAP bootstrap and the applicable registry. Only the public IANA bootstrap is cached with the Cache API; per-domain RDAP results are not placed in a shared cache.
+- DNS/MX successes are cached for one hour. Permanent negative DNS answers are cached for five minutes; timeouts and transient failures are never cached.
+- Deep analysis may fetch the IANA RDAP bootstrap and the applicable registry. Registry responses are cached for six hours, the IANA bootstrap for 24 hours, and RDAP 404/410 responses for five minutes.
+- Cache entries contain normalized public domains, DNS record types, public mail-host results, or RDAP URLs. Full email addresses and local parts are never used as cache keys or values.
+- Cloudflare Cache API entries are ephemeral and data-center-local. No KV, R2, or D1 provisioning is required.
 - Direct SMTP recipient and catch-all probing is not possible on Workers because outbound TCP port 25 is blocked. Use the Node/Docker target if this optional feature is required.
 - JSON request bodies are limited to 16 KiB and batches to 100 addresses.
-- The verified/core/community sets are read-only module configuration. Per-request analyzers hold DNS promises only for that request, avoiding cross-request I/O state.
+- The verified/core/community sets are read-only module configuration. Per-request analyzers deduplicate in-flight work without keeping request-bound I/O objects in module globals.
 
 ## Rebuilding the dataset
 
@@ -222,7 +225,7 @@ Use already cloned sources for a reproducible offline build:
 node scripts/build-dataset.js --source-root work/research
 ```
 
-The default community quorum is 2. A quorum of 1 is rejected to reduce single-list pollution and false positives. The GitHub Actions workflow rebuilds the generated data daily and commits it only after the tests pass.
+The default community quorum is 2. A quorum of 1 is rejected to reduce single-list pollution and false positives. The GitHub Actions workflow rebuilds the generated data daily and commits it only after Node tests, Workerd tests, and a fresh Worker dry-run build pass.
 
 Manual block evidence lives in `config/verified_domains.json`. Dedicated rotating-provider infrastructure is maintained in `config/disposable_mx_patterns.txt` and `config/disposable_mx_ips.txt`. No separate allow tier was introduced for newly discovered disposable domains.
 
@@ -246,7 +249,7 @@ The baseline repositories are:
 - [disposable-email-domains/disposable-email-domains](https://github.com/disposable-email-domains/disposable-email-domains)
 - [groundcat/disposable-email-domain-list](https://github.com/groundcat/disposable-email-domain-list)
 
-Community inputs include [disposable/disposable](https://github.com/disposable/disposable), [7c/fakefilter](https://github.com/7c/fakefilter), [wesbos/burner-email-providers](https://github.com/wesbos/burner-email-providers), [email-check-app/disposable-email-providers](https://github.com/email-check-app/disposable-email-providers), and [eramitgupta/disposable-email](https://github.com/eramitgupta/disposable-email).
+The 13 community inputs include the existing aggregate lists plus [FGRibreau/mailchecker](https://github.com/FGRibreau/mailchecker), [daisy1754/jp-disposable-emails](https://github.com/daisy1754/jp-disposable-emails), [rspamd/maps](https://github.com/rspamd/maps/tree/master/freemail), [GeroldSetz/emailondeck.com-domains](https://github.com/GeroldSetz/emailondeck.com-domains), [unkn0w/disposable-email-domain-list](https://github.com/unkn0w/disposable-email-domain-list), [fnando/email_data](https://github.com/fnando/email_data), [castle/disposable-email-domains](https://github.com/castle/disposable-email-domains), and [tompec/disposable-email-domains](https://github.com/tompec/disposable-email-domains). Source health thresholds, hashes, counts, URLs, and licenses are recorded in generated metadata.
 
 The Korean and Japanese research pass also verified live or rotating domains from VHM MAIL, LT's Email Workshop, Tempo, Mikiya Web, Tomy Mail JP, kuku.lu/InstAddr, MailPorary, mail.cx, Mohmal, GuerrillaMail, YOPmail, Temp-Mail.org, CleanTempMail, and related services. Evidence and observations are recorded in `docs/research-2026-08-18.md` and `src/cleanmail/data/verified_evidence.json`.
 
@@ -258,8 +261,8 @@ npm run test:worker
 npm run build:worker
 ```
 
-The suite contains 43 Node tests plus 5 tests executed inside the Cloudflare Workers runtime. It covers syntax normalization, suffix rules, verified samples, MX hostname and IP detection, DNS failure behavior, local-part risk signals, RDAP parsing, public-IP safety, SMTP/greylisting behavior, dataset integrity, both HTTP handlers, Worker startup, and embedded-data loading. `npm run build:worker` performs a Wrangler dry-run bundle; `npx wrangler check startup` profiles module startup locally.
+The suite contains 48 Node tests plus 5 tests executed inside the Cloudflare Workers runtime. It covers syntax normalization, suffix rules, verified samples, MX hostname and IP detection, DNS failure behavior, local-part risk signals, RDAP parsing, public-IP safety, SMTP/greylisting behavior, dataset integrity, cache hit/negative/transient/fail-open behavior, both HTTP handlers, Worker startup, and embedded-data loading. `npm run build:worker` performs a Wrangler dry-run bundle.
 
 ## License
 
-CleanMail source code is licensed under MIT. Combined data retains the applicable CC0, MIT, and BSD-3-Clause terms of its upstream sources. See `THIRD_PARTY_NOTICES.md` for details.
+CleanMail source code is licensed under MIT. Combined data retains the applicable CC0, MIT, BSD-3-Clause, ISC, and CC-BY-4.0 terms of its upstream sources. See `THIRD_PARTY_NOTICES.md` for details.

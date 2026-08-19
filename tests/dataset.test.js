@@ -36,6 +36,9 @@ test('metadata counts match files', () => {
   assert.equal(metadata.counts.verified, readDomains('verified_domains.txt').length);
   assert.equal(metadata.counts.mx_patterns, readDomains('mx_patterns.txt').length);
   assert.equal(metadata.counts.mx_ips, readDomains('mx_ips.txt').length);
+  assert.equal(metadata.builder_policy_version, 7);
+  assert.equal(Object.keys(metadata.sources).filter((name) => name.startsWith('community_')).length, 13);
+  assert.ok(Object.values(metadata.sources).every((source) => source.url && source.license && source.sha256));
 });
 
 test('live comparison covers every verified domain', () => {
