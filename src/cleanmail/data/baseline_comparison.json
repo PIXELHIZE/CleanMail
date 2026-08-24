@@ -4,9 +4,9 @@
   "sample_size": 111,
   "coverage": {
     "baseline_disposable_email_domains": 12,
-    "baseline_groundcat": 5,
+    "baseline_groundcat": 3,
     "baseline_union": 14,
-    "baseline_intersection": 3,
+    "baseline_intersection": 1,
     "cleanmail": 111
   },
   "rows": [
@@ -113,7 +113,7 @@
       "service": "Mail.tm",
       "region": "korea-search",
       "baseline_disposable_email_domains": "emalupe.com",
-      "baseline_groundcat": "emalupe.com"
+      "baseline_groundcat": null
     },
     {
       "domain": "mailyra.com",
@@ -449,7 +449,7 @@
       "service": "GuerrillaMail",
       "region": "global",
       "baseline_disposable_email_domains": "totallynotfake.net",
-      "baseline_groundcat": "totallynotfake.net"
+      "baseline_groundcat": null
     },
     {
       "domain": "spamthis.network",
