@@ -9,7 +9,7 @@ import { domainToASCII, fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DEFAULT_OUTPUT = path.join(ROOT, 'src', 'cleanmail', 'data');
 const LABEL = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/;
-const BUILDER_POLICY_VERSION = 7;
+const BUILDER_POLICY_VERSION = 8;
 
 const SOURCES = {
   baseline_disposable_email_domains: {
@@ -117,6 +117,20 @@ const SOURCES = {
     format: 'json',
     minDomains: 100_000,
   },
+  community_ffraud: {
+    url: 'https://raw.githubusercontent.com/FFraud-com/disposable-email-domains/main/disposable-email-domains.txt',
+    license: 'MIT',
+    local: 'ffraud/disposable-email-domains.txt',
+    format: 'lines',
+    minDomains: 200_000,
+  },
+  community_gtkppr: {
+    url: 'https://raw.githubusercontent.com/gtkppr/email-disposable/main/disposable.txt',
+    license: 'MIT',
+    local: 'email-disposable/disposable.txt',
+    format: 'lines',
+    minDomains: 200_000,
+  },
 };
 
 function sha256(value) {
@@ -188,6 +202,11 @@ function readAllowlist(filePath) {
   return parseDomains(fs.readFileSync(filePath), 'lines');
 }
 
+function readOptionalDomains(filePath) {
+  if (!fs.statSync(filePath, { throwIfNoEntry: false })?.isFile()) return new Set();
+  return parseDomains(fs.readFileSync(filePath), 'lines');
+}
+
 function readIpPatterns(filePath) {
   const values = new Set();
   for (const line of fs.readFileSync(filePath, 'utf8').split(/\r?\n/)) {
@@ -222,6 +241,34 @@ function difference(left, ...others) {
 
 function union(...sets) {
   return new Set(sets.flatMap((set) => [...set]));
+}
+
+export function mergeHistoricalTiers({
+  currentCore,
+  currentCommunity,
+  previousCore,
+  previousCommunity,
+  previousBlocked,
+  verified,
+  allowlist,
+}) {
+  const core = union(
+    difference(previousCore, allowlist),
+    difference(currentCore, previousCommunity, allowlist),
+  );
+  const historicalCommunity = difference(
+    previousBlocked,
+    previousCore,
+    previousCommunity,
+    verified,
+    allowlist,
+  );
+  const community = union(
+    difference(previousCommunity, allowlist),
+    difference(currentCommunity, core, allowlist),
+    historicalCommunity,
+  );
+  return { core, community, allBlocked: union(core, community, verified) };
 }
 
 function coveredBy(domain, rules) {
@@ -305,7 +352,7 @@ export async function buildDataset(argv = process.argv.slice(2)) {
   const conflict = intersection(verified, allowlist);
   if (conflict.size) throw new Error(`verified domains conflict with allowlist: ${[...conflict].sort().join(', ')}`);
 
-  const core = difference(
+  const currentCore = difference(
     intersection(loaded.baseline_disposable_email_domains, loaded.baseline_groundcat),
     allowlist,
   );
@@ -315,8 +362,19 @@ export async function buildDataset(argv = process.argv.slice(2)) {
     for (const domain of domains) votes.set(domain, (votes.get(domain) || 0) + 1);
   }
   const communityCandidates = new Set([...votes].filter(([, count]) => count >= options.quorum).map(([domain]) => domain));
-  const community = difference(communityCandidates, allowlist, core);
-  const allBlocked = union(core, community, verified);
+  const currentCommunity = difference(communityCandidates, allowlist, currentCore);
+  const previousCore = readOptionalDomains(path.join(options.output, 'core_domains.txt'));
+  const previousCommunity = readOptionalDomains(path.join(options.output, 'community_domains.txt'));
+  const previousBlocked = readOptionalDomains(path.join(options.output, 'domains.txt'));
+  const { core, community, allBlocked } = mergeHistoricalTiers({
+    currentCore,
+    currentCommunity,
+    previousCore,
+    previousCommunity,
+    previousBlocked,
+    verified,
+    allowlist,
+  });
 
   writeDomains(path.join(options.output, 'allowlist.txt'), allowlist);
   writeDomains(path.join(options.output, 'verified_domains.txt'), verified);
@@ -363,6 +421,7 @@ export async function buildDataset(argv = process.argv.slice(2)) {
     verified: sha256(fs.readFileSync(verifiedPath)),
     mx_patterns: sha256(fs.readFileSync(mxPatternsPath)),
     mx_ips: sha256(fs.readFileSync(mxIpsPath)),
+    blocked_state: sha256(Buffer.from([...allBlocked].sort().join('\n'))),
   };
   const inputFingerprint = sha256(Buffer.from(JSON.stringify(fingerprintPayload)));
   let generatedAt = new Date().toISOString();
@@ -384,8 +443,8 @@ export async function buildDataset(argv = process.argv.slice(2)) {
     input_fingerprint: inputFingerprint,
     builder_policy_version: BUILDER_POLICY_VERSION,
     policy: {
-      core: 'exact intersection of the two baseline repositories',
-      community: `present in at least ${options.quorum} external public inputs`,
+      core: 'current or historical exact intersection of the two baseline repositories',
+      community: `current or historical presence in at least ${options.quorum} external public inputs`,
       verified: 'observed on a live service or confirmed by a supplied usage sample',
       online: 'unknown domains are checked against dedicated disposable MX host and IP fingerprints',
       allowlist: 'always overrides every block tier',

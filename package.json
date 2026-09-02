@@ -17,6 +17,7 @@
   },
   "scripts": {
     "build:data": "node scripts/build-dataset.js",
+    "check:data-retention": "node scripts/check-domain-retention.js",
     "check": "node src/cleanmail/cli.js check",
     "start": "node src/cleanmail/cli.js serve --host 0.0.0.0 --port 8080",
     "stats": "node src/cleanmail/cli.js stats --json",
@@ -25,7 +26,7 @@
     "refresh:worker": "npm run build:data && npm test && npm run build:worker",
     "deploy:worker": "wrangler deploy",
     "types:worker": "wrangler types worker-configuration.d.ts --include-runtime=false",
-    "test:node": "node --test tests/api.test.js tests/analyzer.test.js tests/dataset.test.js tests/detector.test.js tests/smtp.test.js tests/worker-cache.test.js tests/worker-handler.test.js",
+    "test:node": "node --test tests/api.test.js tests/analyzer.test.js tests/build-dataset.test.js tests/dataset.test.js tests/detector.test.js tests/smtp.test.js tests/worker-cache.test.js tests/worker-handler.test.js",
     "test:worker": "vitest run --config vitest.config.js",
     "test": "npm run test:node && npm run test:worker"
   },

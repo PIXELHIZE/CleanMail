@@ -8,7 +8,7 @@ CleanMail은 회원가입·인증·쿠폰·무료체험 악용에 쓰이는 일�
 
 ## 주요 수치
 
-- 정적 고유 차단 도메인: **188,134개**
+- 정적 고유 차단 도메인: **215,103개**
 - 실서비스·사용 표본·공급자 인프라로 검증: **111개**
 - 회전형 서비스 MX 호스트 지문: **25개**
 - 전용 MX 수신 IP 지문: **13개**
@@ -20,10 +20,10 @@ CleanMail은 회원가입·인증·쿠폰·무료체험 악용에 쓰이는 일�
 
 | 계층 | 정책 | 개수 |
 |---|---|---:|
-| `core` | 두 기준 저장소의 정확한 교집합 | 1,846 |
-| `community` | 외부 공개 입력 중 2개 이상에 존재, `core` 제외 | 186,206 |
+| `core` | 두 기준 저장소의 정확한 교집합 | 1,815 |
+| `community` | 현재 또는 과거에 외부 공개 입력 중 2개 이상에 존재, `core` 제외 | 213,261 |
 | `verified` | 실제 발급·선택기·API·사용 표본·MX 근거로 확인 | 111 |
-| 최종 고유 정적 차단 | 위 세 차단 계층의 합집합 | **188,134** |
+| 최종 고유 정적 차단 | 위 세 차단 계층의 합집합 | **215,103** |
 
 ## 실행 대상 선택
 
@@ -32,7 +32,7 @@ CleanMail은 회원가입·인증·쿠폰·무료체험 악용에 쓰이는 일�
 | Node.js / Docker | CLI, Node HTTP API, DNS/RDAP, 선택형 직접 SMTP 검사, 내장 데이터 | Worker 진입점 | 명시적으로 켤 때 사용 가능 |
 | Cloudflare Workers | Fetch API, DNS/RDAP, 위험 분석기, 내장 데이터 | CLI, Node HTTP 서버, 파일 로더, 직접 SMTP 구현 | Workers의 외부 25번 포트 제한으로 지원 불가 |
 
-두 대상은 함께 구동하는 서비스가 아니라 서로 다른 빌드 그래프입니다. Docker 이미지는 `src/cleanmail`만 복사합니다. Wrangler는 `src/worker/entry.js`의 import 그래프만 묶기 때문에 Worker 결과물에는 공용 탐지기·분석기·데이터만 들어가고 Node 서버와 실제 SMTP 구현은 들어가지 않습니다. 현재 Worker dry-run 결과는 원본 2,884.04KiB, gzip 1,046.30KiB입니다.
+두 대상은 함께 구동하는 서비스가 아니라 서로 다른 빌드 그래프입니다. Docker 이미지는 `src/cleanmail`만 복사합니다. Wrangler는 `src/worker/entry.js`의 import 그래프만 묶기 때문에 Worker 결과물에는 공용 탐지기·분석기·데이터만 들어가고 Node 서버와 실제 SMTP 구현은 들어가지 않습니다. 현재 Worker dry-run 결과는 원본 3,326.20KiB, gzip 1,199.48KiB입니다.
 
 111개 검증 표본에서 `disposable-email-domains`는 12개, `groundcat`은 5개를 탐지했습니다. 둘의 합집합은 14개, 교집합은 3개였습니다. 최신 누락값을 의도적으로 포함한 표본이므로 인터넷 전체 탐지율로 해석하면 안 됩니다.
 
@@ -197,7 +197,7 @@ node scripts/build-dataset.js
 node scripts/build-dataset.js --source-root work/research
 ```
 
-기본 커뮤니티 정족수는 2이며 단일 목록 오염을 줄이기 위해 1은 허용하지 않습니다. 수동 검증값은 `config/verified_domains.json`, 회전형 인프라는 `config/disposable_mx_patterns.txt`와 `config/disposable_mx_ips.txt`에서 관리합니다.
+기본 커뮤니티 정족수는 2이며 단일 목록 오염을 줄이기 위해 1은 허용하지 않습니다. 생성되는 `core`와 `community` 계층은 빌드 사이에서 계속 누적되므로 현재 공개 입력에서 사라져도 기존 계층에 남습니다. 명시적으로 allowlist에 넣는 경우만 삭제할 수 있으며 GitHub Actions가 이 불변 조건을 검사합니다. 수동 검증값은 `config/verified_domains.json`, 회전형 인프라는 `config/disposable_mx_patterns.txt`와 `config/disposable_mx_ips.txt`에서 관리합니다.
 
 ## 판정 순서
 
@@ -214,7 +214,7 @@ Cloudflare Email Routing, Google Workspace, 범용 호스팅 MX처럼 여러 정
 
 ## 데이터 원천
 
-기준 저장소는 [disposable-email-domains/disposable-email-domains](https://github.com/disposable-email-domains/disposable-email-domains)와 [groundcat/disposable-email-domain-list](https://github.com/groundcat/disposable-email-domain-list)입니다. 커뮤니티 입력은 13개이며 MailChecker, 일본 전용 `jp-disposable-emails`, Rspamd freemail, EmailOnDeck 전용 목록, unkn0w, `email_data`, Castle, tompec 등을 포함합니다. 추가 공개 입력과 라이선스는 `THIRD_PARTY_NOTICES.md`, 한국·일본 집중 조사 기록은 `docs/research-2026-08-18.md`에 정리되어 있습니다.
+기준 저장소는 [disposable-email-domains/disposable-email-domains](https://github.com/disposable-email-domains/disposable-email-domains)와 [groundcat/disposable-email-domain-list](https://github.com/groundcat/disposable-email-domain-list)입니다. 커뮤니티 입력은 15개이며 MailChecker, 일본 전용 `jp-disposable-emails`, Rspamd freemail, EmailOnDeck 전용 목록, unkn0w, `email_data`, Castle, tompec, FFraud, email-disposable 등을 포함합니다. 추가 공개 입력과 라이선스는 `THIRD_PARTY_NOTICES.md`, 한국·일본 집중 조사 기록은 `docs/research-2026-08-18.md`에 정리되어 있습니다.
 
 ## 테스트
 
@@ -224,7 +224,7 @@ npm run test:worker
 npm run build:worker
 ```
 
-Node 테스트 48개와 실제 Cloudflare Workers 런타임에서 실행하는 테스트 5개가 있습니다. 문법 정규화, 하위 도메인, 검증 표본, MX 호스트·IP, DNS 실패, 로컬파트 위험 신호, RDAP, 공인 IP 안전장치, SMTP·캐치올, 데이터 무결성, 캐시 성공·부재·일시 장애·실패 시 우회 처리, 두 HTTP 처리기, Worker 기동과 내장 데이터 로드를 검사합니다. `npm run build:worker`는 배포하지 않는 Wrangler 번들을 만듭니다.
+Node 테스트 50개와 실제 Cloudflare Workers 런타임에서 실행하는 테스트 6개가 있습니다. 문법 정규화, 하위 도메인, 누적 보존 정책, 검증 표본, MX 호스트·IP, DNS 실패, 로컬파트 위험 신호, RDAP, 공인 IP 안전장치, SMTP·캐치올, 데이터 무결성, 캐시 성공·부재·일시 장애·실패 시 우회 처리, 두 HTTP 처리기, Worker 기동과 내장 데이터 로드를 검사합니다. `npm run build:worker`는 배포하지 않는 Wrangler 번들을 만듭니다.
 
 ## 라이선스
 

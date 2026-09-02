@@ -21,6 +21,8 @@ jobs:
         run: npm ci
       - name: Rebuild dataset from public sources
         run: node scripts/build-dataset.js
+      - name: Enforce append-only domain retention
+        run: npm run check:data-retention
       - name: Test Node and Worker runtimes
         run: npm test
       - name: Validate the fresh Worker bundle
