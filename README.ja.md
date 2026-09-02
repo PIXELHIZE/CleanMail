@@ -8,7 +8,7 @@ CleanMail は、使い捨てメールと登録リスクを検出する JavaScrip
 
 ## 主な特徴
 
-- 静的ブロックドメイン: **188,134件**
+- 静的ブロックドメイン: **215,103件**
 - 実サービス、利用サンプル、プロバイダーのインフラで確認済み: **111件**
 - ローテーション型サービスの MX ホスト指紋: **25件**
 - 専用 MX 受信 IP 指紋: **13件**
@@ -20,10 +20,10 @@ CleanMail は、使い捨てメールと登録リスクを検出する JavaScrip
 
 | レイヤー | ポリシー | 件数 |
 |---|---|---:|
-| `core` | 2つの基準リポジトリの完全な共通部分 | 1,846 |
-| `community` | 公開入力のうち2つ以上に存在し、`core`を除外 | 186,206 |
+| `core` | 2つの基準リポジトリの完全な共通部分 | 1,815 |
+| `community` | 現在または過去に公開入力のうち2つ以上に存在し、`core`を除外 | 213,261 |
 | `verified` | 発行画面、選択欄、API、利用サンプル、MX 根拠で確認 | 111 |
-| 静的ブロックのユニーク合計 | 上記3レイヤーの和集合 | **188,134** |
+| 静的ブロックのユニーク合計 | 上記3レイヤーの和集合 | **215,103** |
 
 ## 実行環境の選択
 
@@ -32,7 +32,7 @@ CleanMail は、使い捨てメールと登録リスクを検出する JavaScrip
 | Node.js / Docker | CLI、Node HTTP API、DNS/RDAP、任意の直接 SMTP 検査、組み込みデータ | Worker エントリーポイント | 明示的に有効化した場合のみ利用可能 |
 | Cloudflare Workers | Fetch API、DNS/RDAP、リスク分析、組み込みデータ | CLI、Node HTTP サーバー、ファイルローダー、直接 SMTP 実装 | Workers の外向き25番ポート制限により非対応 |
 
-2つは同時実行するサービスではなく、別々のビルドグラフです。Docker イメージは `src/cleanmail` だけをコピーします。Wrangler は `src/worker/entry.js` からの import グラフだけをバンドルするため、Worker には共有検出器・分析器・データが含まれ、Node サーバーと実 SMTP 実装は含まれません。現在の Worker dry-run は raw 2,884.04KiB、gzip 1,046.30KiB です。
+2つは同時実行するサービスではなく、別々のビルドグラフです。Docker イメージは `src/cleanmail` だけをコピーします。Wrangler は `src/worker/entry.js` からの import グラフだけをバンドルするため、Worker には共有検出器・分析器・データが含まれ、Node サーバーと実 SMTP 実装は含まれません。現在の Worker dry-run は raw 3,326.20KiB、gzip 1,199.48KiB です。
 
 111件の検証サンプルでは、`disposable-email-domains` が12件、`groundcat` が5件を検出しました。和集合は14件、共通部分は3件です。これは新しい未登録ドメインを意図的に含むサンプルであり、インターネット全体の検出率ではありません。
 
@@ -197,7 +197,7 @@ node scripts/build-dataset.js
 node scripts/build-dataset.js --source-root work/research
 ```
 
-コミュニティ入力の既定クォーラムは2です。単一リストの汚染を抑えるため、1は許可されません。手動検証ドメインは `config/verified_domains.json`、ローテーション型インフラは `config/disposable_mx_patterns.txt` と `config/disposable_mx_ips.txt` で管理します。
+コミュニティ入力の既定クォーラムは2です。単一リストの汚染を抑えるため、1は許可されません。生成される `core` と `community` レイヤーはビルド間で追記専用となり、現在の公開入力から消えても既存レイヤーに残ります。明示的な allowlist 登録だけが削除経路となり、GitHub Actions がこの不変条件を検査します。手動検証ドメインは `config/verified_domains.json`、ローテーション型インフラは `config/disposable_mx_patterns.txt` と `config/disposable_mx_ips.txt` で管理します。
 
 ## 判定順序
 
@@ -214,7 +214,7 @@ Cloudflare Email Routing、Google Workspace、一般的なホスティング MX 
 
 ## データソース
 
-基準リポジトリは [disposable-email-domains/disposable-email-domains](https://github.com/disposable-email-domains/disposable-email-domains) と [groundcat/disposable-email-domain-list](https://github.com/groundcat/disposable-email-domain-list) です。コミュニティ入力は13件で、MailChecker、日本向け `jp-disposable-emails`、Rspamd freemail、EmailOnDeck 専用リスト、unkn0w、`email_data`、Castle、tompec などを含みます。追加の公開入力とライセンスは `THIRD_PARTY_NOTICES.md`、韓国・日本向けの調査記録は `docs/research-2026-08-18.md` を参照してください。
+基準リポジトリは [disposable-email-domains/disposable-email-domains](https://github.com/disposable-email-domains/disposable-email-domains) と [groundcat/disposable-email-domain-list](https://github.com/groundcat/disposable-email-domain-list) です。コミュニティ入力は15件で、MailChecker、日本向け `jp-disposable-emails`、Rspamd freemail、EmailOnDeck 専用リスト、unkn0w、`email_data`、Castle、tompec、FFraud、email-disposable などを含みます。追加の公開入力とライセンスは `THIRD_PARTY_NOTICES.md`、韓国・日本向けの調査記録は `docs/research-2026-08-18.md` を参照してください。
 
 日本向け調査では、とみーメールJP、Mikiya Web、kuku.lu/InstAddr、mail.cx、CleanTempMail などの実際の発行ドメインと MX インフラを確認しています。
 
@@ -226,7 +226,7 @@ npm run test:worker
 npm run build:worker
 ```
 
-Node テスト48件と実際の Cloudflare Workers ランタイムで実行するテスト5件があります。構文正規化、サブドメイン、検証サンプル、MX ホスト・IP、DNS 障害、ローカル部のリスク、RDAP、公開 IP 保護、SMTP・catch-all、データ整合性、キャッシュの成功・不在・一時障害・フェイルオープン処理、2つの HTTP ハンドラー、Worker 起動、組み込みデータの読み込みを検査します。`npm run build:worker` はデプロイなしの Wrangler バンドルを作成します。
+Node テスト50件と実際の Cloudflare Workers ランタイムで実行するテスト6件があります。構文正規化、サブドメイン、追記専用の保持ポリシー、検証サンプル、MX ホスト・IP、DNS 障害、ローカル部のリスク、RDAP、公開 IP 保護、SMTP・catch-all、データ整合性、キャッシュの成功・不在・一時障害・フェイルオープン処理、2つの HTTP ハンドラー、Worker 起動、組み込みデータの読み込みを検査します。`npm run build:worker` はデプロイなしの Wrangler バンドルを作成します。
 
 ## ライセンス
 

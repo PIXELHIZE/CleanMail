@@ -13,6 +13,15 @@ test('verified domain is blocked', () => {
   assert.equal(result.tier, 'verified');
 });
 
+test('a domain removed from upstream lists remains blocked in an existing tier', () => {
+  const result = detector.check('person@668mail.com');
+  assert.equal(result.valid, true);
+  assert.equal(result.blocked, true);
+  assert.equal(result.disposable, true);
+  assert.equal(result.tier, 'community');
+  assert.equal(result.reason, 'confirmed_by_multiple_external_lists');
+});
+
 test('user-provided disposable samples are all blocked', () => {
   const emails = [
     'debitis.cum.sunt@tempmail.freevpnplanet.com',

@@ -22,6 +22,8 @@ The work is dedicated to the public domain under CC0 1.0. Legal code: https://cr
 - `fnando/email_data` — Copyright (c) 2020 Nando Vieira
 - `castle/disposable-email-domains` — Copyright (c) 2026 Castle
 - `tompec/disposable-email-domains` — Copyright (c) 2017 Ilya Volodarsky; Copyright (c) 2025 Thomas Petracco
+- `FFraud-com/disposable-email-domains` — Copyright (c) 2026 ffraud
+- `gtkppr/email-disposable` — Copyright (c) 2025 Dan Suciu
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

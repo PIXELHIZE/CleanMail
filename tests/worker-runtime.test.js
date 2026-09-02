@@ -26,6 +26,17 @@ describe('CleanMail Cloudflare Worker runtime', () => {
     expect(stats.community).toBeGreaterThan(1_000);
   });
 
+  it('blocks a domain preserved from an earlier dataset', async () => {
+    const response = await request('/v1/check?email=person%40668mail.com');
+    expect(response.status).toBe(200);
+    await expect(response.json()).resolves.toMatchObject({
+      blocked: true,
+      disposable: true,
+      tier: 'community',
+      reason: 'confirmed_by_multiple_external_lists',
+    });
+  });
+
   it('blocks a verified temporary-mail domain without a network lookup', async () => {
     const response = await request('/v1/check?email=person%40vhm.cc');
     expect(response.status).toBe(200);

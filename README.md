@@ -8,7 +8,7 @@ CleanMail is a Korean-first disposable email and signup-risk detector written in
 
 ## Highlights
 
-- 188,134 unique statically blocked domains
+- 215,103 unique statically blocked domains
 - 111 domains verified from live issuance, selectors, public APIs, supplied samples, or corroborated provider infrastructure
 - 25 dedicated MX hostname fingerprints and 13 receiver IP fingerprints for rotating domains
 - Parent-domain suffix matching for disposable subdomains
@@ -28,16 +28,16 @@ The generated dataset metadata in `src/cleanmail/data/metadata.json` is the auth
 | Node.js / Docker | CLI, Node HTTP API, DNS/RDAP, optional direct SMTP probe, embedded data | Worker entry point | Available, opt-in |
 | Cloudflare Workers | Fetch API handler, DNS/RDAP, risk analyzer, embedded data | CLI, Node HTTP server, filesystem loader, direct SMTP implementation | Unsupported because Workers cannot connect to outbound port 25 |
 
-These are separate build graphs, not two services that must run together. The Docker image copies only `src/cleanmail`. Wrangler follows imports from `src/worker/entry.js`, so the generated Worker contains the shared detector/analyzer and data but not the Node server or SMTP implementation. The current Worker dry-run upload is 2,884.04 KiB raw and 1,046.30 KiB gzip.
+These are separate build graphs, not two services that must run together. The Docker image copies only `src/cleanmail`. Wrangler follows imports from `src/worker/entry.js`, so the generated Worker contains the shared detector/analyzer and data but not the Node server or SMTP implementation. The current Worker dry-run upload is 3,326.20 KiB raw and 1,199.48 KiB gzip.
 
 ## Detection tiers
 
 | Tier | Policy | Count |
 |---|---|---:|
-| `core` | Exact intersection of the two baseline repositories | 1,846 |
-| `community` | Present in at least two public community inputs, excluding `core` | 186,206 |
+| `core` | Exact intersection of the two baseline repositories | 1,815 |
+| `community` | Present now or historically in at least two public community inputs, excluding `core` | 213,261 |
 | `verified` | Confirmed through live services, supplied samples, or provider/MX evidence | 111 |
-| Unique static block set | Union of the three block tiers | **188,134** |
+| Unique static block set | Union of the three block tiers | **215,103** |
 | `mx` hostname fingerprints | Dedicated infrastructure used by rotating providers | 25 |
 | `mx` IP fingerprints | Receiver IPs used only after resolving an MX host | 13 |
 
@@ -225,7 +225,7 @@ Use already cloned sources for a reproducible offline build:
 node scripts/build-dataset.js --source-root work/research
 ```
 
-The default community quorum is 2. A quorum of 1 is rejected to reduce single-list pollution and false positives. The GitHub Actions workflow rebuilds the generated data daily and commits it only after Node tests, Workerd tests, and a fresh Worker dry-run build pass.
+The default community quorum is 2. A quorum of 1 is rejected to reduce single-list pollution and false positives. The generated `core` and `community` tiers are append-only across rebuilds, so domains remain in their existing tier after disappearing from current public inputs. An explicit allowlist entry is the only removal path. The GitHub Actions workflow enforces this invariant, rebuilds the generated data daily, and commits it only after Node tests, Workerd tests, and a fresh Worker dry-run build pass.
 
 Manual block evidence lives in `config/verified_domains.json`. Dedicated rotating-provider infrastructure is maintained in `config/disposable_mx_patterns.txt` and `config/disposable_mx_ips.txt`. No separate allow tier was introduced for newly discovered disposable domains.
 
@@ -249,7 +249,7 @@ The baseline repositories are:
 - [disposable-email-domains/disposable-email-domains](https://github.com/disposable-email-domains/disposable-email-domains)
 - [groundcat/disposable-email-domain-list](https://github.com/groundcat/disposable-email-domain-list)
 
-The 13 community inputs include the existing aggregate lists plus [FGRibreau/mailchecker](https://github.com/FGRibreau/mailchecker), [daisy1754/jp-disposable-emails](https://github.com/daisy1754/jp-disposable-emails), [rspamd/maps](https://github.com/rspamd/maps/tree/master/freemail), [GeroldSetz/emailondeck.com-domains](https://github.com/GeroldSetz/emailondeck.com-domains), [unkn0w/disposable-email-domain-list](https://github.com/unkn0w/disposable-email-domain-list), [fnando/email_data](https://github.com/fnando/email_data), [castle/disposable-email-domains](https://github.com/castle/disposable-email-domains), and [tompec/disposable-email-domains](https://github.com/tompec/disposable-email-domains). Source health thresholds, hashes, counts, URLs, and licenses are recorded in generated metadata.
+The 15 community inputs include the existing aggregate lists plus [FGRibreau/mailchecker](https://github.com/FGRibreau/mailchecker), [daisy1754/jp-disposable-emails](https://github.com/daisy1754/jp-disposable-emails), [rspamd/maps](https://github.com/rspamd/maps/tree/master/freemail), [GeroldSetz/emailondeck.com-domains](https://github.com/GeroldSetz/emailondeck.com-domains), [unkn0w/disposable-email-domain-list](https://github.com/unkn0w/disposable-email-domain-list), [fnando/email_data](https://github.com/fnando/email_data), [castle/disposable-email-domains](https://github.com/castle/disposable-email-domains), [tompec/disposable-email-domains](https://github.com/tompec/disposable-email-domains), [FFraud](https://github.com/FFraud-com/disposable-email-domains), and [email-disposable](https://github.com/gtkppr/email-disposable). Source health thresholds, hashes, counts, URLs, and licenses are recorded in generated metadata.
 
 The Korean and Japanese research pass also verified live or rotating domains from VHM MAIL, LT's Email Workshop, Tempo, Mikiya Web, Tomy Mail JP, kuku.lu/InstAddr, MailPorary, mail.cx, Mohmal, GuerrillaMail, YOPmail, Temp-Mail.org, CleanTempMail, and related services. Evidence and observations are recorded in `docs/research-2026-08-18.md` and `src/cleanmail/data/verified_evidence.json`.
 
@@ -261,7 +261,7 @@ npm run test:worker
 npm run build:worker
 ```
 
-The suite contains 48 Node tests plus 5 tests executed inside the Cloudflare Workers runtime. It covers syntax normalization, suffix rules, verified samples, MX hostname and IP detection, DNS failure behavior, local-part risk signals, RDAP parsing, public-IP safety, SMTP/greylisting behavior, dataset integrity, cache hit/negative/transient/fail-open behavior, both HTTP handlers, Worker startup, and embedded-data loading. `npm run build:worker` performs a Wrangler dry-run bundle.
+The suite contains 50 Node tests plus 6 tests executed inside the Cloudflare Workers runtime. It covers syntax normalization, suffix rules, append-only retention, verified samples, MX hostname and IP detection, DNS failure behavior, local-part risk signals, RDAP parsing, public-IP safety, SMTP/greylisting behavior, dataset integrity, cache hit/negative/transient/fail-open behavior, both HTTP handlers, Worker startup, and embedded-data loading. `npm run build:worker` performs a Wrangler dry-run bundle.
 
 ## License
 
