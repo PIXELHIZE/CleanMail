@@ -4,8 +4,8 @@
   "sample_size": 111,
   "coverage": {
     "baseline_disposable_email_domains": 12,
-    "baseline_groundcat": 3,
-    "baseline_union": 14,
+    "baseline_groundcat": 2,
+    "baseline_union": 13,
     "baseline_intersection": 1,
     "cleanmail": 111
   },
@@ -15,7 +15,7 @@
       "service": "Temp-Mail",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": "playboot.com"
+      "baseline_groundcat": null
     },
     {
       "domain": "f5.si",
