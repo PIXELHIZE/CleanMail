@@ -1,8 +1,8 @@
 {
   "name": "CleanMail",
-  "dataset_version": "2026.09.12",
-  "generated_at": "2026-09-12T20:36:40.629Z",
-  "input_fingerprint": "d8fce7ff40cf419293a2049b176cf4b4e33ec4fdbf7afbe5b0d2dbb4332c8fdc",
+  "dataset_version": "2026.09.13",
+  "generated_at": "2026-09-13T20:53:55.215Z",
+  "input_fingerprint": "6c1a4e88aa10e19301be576047dbf616a305b426d8b58a239b53c6f3deecb978",
   "builder_policy_version": 8,
   "policy": {
     "core": "current or historical exact intersection of the two baseline repositories",
@@ -13,9 +13,9 @@
   },
   "community_quorum": 2,
   "counts": {
-    "all_blocked": 215519,
+    "all_blocked": 215551,
     "core": 1819,
-    "community": 213673,
+    "community": 213705,
     "verified": 111,
     "allowlist": 34,
     "mx_patterns": 25,
@@ -26,8 +26,8 @@
     "baseline_disposable_email_domains": {
       "url": "https://raw.githubusercontent.com/disposable-email-domains/disposable-email-domains/main/disposable_email_blocklist.conf",
       "license": "CC0-1.0",
-      "domains": 8792,
-      "sha256": "880589f8693f7b3b056e7b176b12fb45045fdb0fd24c235ce1e1ee6f59345246",
+      "domains": 8813,
+      "sha256": "402956a4f0bab7f0ea114a881b2caa56c7bb08c35984759af6aaa26454c61c35",
       "revision": null
     },
     "baseline_groundcat": {
@@ -40,15 +40,15 @@
     "community_disposable": {
       "url": "https://raw.githubusercontent.com/disposable/disposable-email-domains/master/domains.txt",
       "license": "MIT",
-      "domains": 75280,
-      "sha256": "35d28b1bce2a48f6ae12f068f7241245a9159b613dbdb836a0b1152bbea401ad",
+      "domains": 75275,
+      "sha256": "e1c1b815a6dfb6944e53da71b60ae61136782807e1be71d9417c0c4d1f21ec56",
       "revision": null
     },
     "community_fakefilter": {
       "url": "https://raw.githubusercontent.com/7c/fakefilter/main/txt/data.txt",
       "license": "BSD-3-Clause",
-      "domains": 4756,
-      "sha256": "d8f905edadd8e1882f86d77695e28fc42046b3e5d5ace14becc1783fd94a496e",
+      "domains": 4746,
+      "sha256": "7b07783a3aff43b361024f0c1a35df56e21ce1f1c5a17fdcdc91fec5d0192130",
       "revision": null
     },
     "community_burner_email_providers": {
@@ -68,8 +68,8 @@
     "community_eramitgupta": {
       "url": "https://raw.githubusercontent.com/eramitgupta/disposable-email/main/disposable_email.txt",
       "license": "MIT",
-      "domains": 125676,
-      "sha256": "e2a9b1ec3046fae6217140f91f779898e1e7a9406abb585bacd3379c9ce63973",
+      "domains": 125685,
+      "sha256": "c6b0be47f8e5a2f420f0a51c318822c0a28d48fe9f31fafabc3b5e9d8c1bd18c",
       "revision": null
     },
     "community_mailchecker": {
@@ -110,15 +110,15 @@
     "community_email_data": {
       "url": "https://raw.githubusercontent.com/fnando/email_data/main/data/disposable_domains.txt",
       "license": "MIT",
-      "domains": 182124,
-      "sha256": "41baa186d7ae331e0c16dd32dd2d8ffffae50594e8795fed76b124a6b5a866e6",
+      "domains": 182171,
+      "sha256": "45b96a74509edcece68ff79164ea98bc19907b6fb7654f79b55850035324dd43",
       "revision": null
     },
     "community_castle": {
       "url": "https://raw.githubusercontent.com/castle/disposable-email-domains/master/disposable-email-domains.txt",
       "license": "MIT",
       "domains": 1000,
-      "sha256": "cf44129a42d698146d9963a856793a0f3c3535d68b4971a2d63366bd511cea9c",
+      "sha256": "2caeffff808871816135aef6657e8894a3c60e2fa0103be59ad5dd6a06a734fc",
       "revision": null
     },
     "community_tompec": {
@@ -131,15 +131,15 @@
     "community_ffraud": {
       "url": "https://raw.githubusercontent.com/FFraud-com/disposable-email-domains/main/disposable-email-domains.txt",
       "license": "MIT",
-      "domains": 219500,
-      "sha256": "608eba23680431d9d1ac553399e1b90f4f0bd9425101151a06c7b4c501b8dd9f",
+      "domains": 219530,
+      "sha256": "a2d5e284a27463ecc8fd2e57b06270517b126f3a8c136d39c8b7456878ca785e",
       "revision": null
     },
     "community_gtkppr": {
       "url": "https://raw.githubusercontent.com/gtkppr/email-disposable/main/disposable.txt",
       "license": "MIT",
-      "domains": 220171,
-      "sha256": "0acbd6340272a5b8e4cf8320055d6bf02d6ba919825aa31161b3f023b241bf42",
+      "domains": 220188,
+      "sha256": "e2a264587e6b6f413734d5392def01c094d51c89c25561b335c6437782af8529",
       "revision": null
     }
   }
