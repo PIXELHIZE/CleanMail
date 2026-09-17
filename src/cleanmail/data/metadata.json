@@ -1,8 +1,8 @@
 {
   "name": "CleanMail",
-  "dataset_version": "2026.09.16",
-  "generated_at": "2026-09-16T21:22:01.262Z",
-  "input_fingerprint": "8aaf96ee44d770f78ee6953c27302157a66c91b59c22fd43138751b405eda998",
+  "dataset_version": "2026.09.17",
+  "generated_at": "2026-09-17T21:26:20.017Z",
+  "input_fingerprint": "b6630f9de7967938949a9b25754dbdccca08412abd398bdaaaa149cafe71e435",
   "builder_policy_version": 8,
   "policy": {
     "core": "current or historical exact intersection of the two baseline repositories",
@@ -13,9 +13,9 @@
   },
   "community_quorum": 2,
   "counts": {
-    "all_blocked": 215938,
+    "all_blocked": 215950,
     "core": 1822,
-    "community": 214089,
+    "community": 214101,
     "verified": 111,
     "allowlist": 34,
     "mx_patterns": 25,
@@ -26,8 +26,8 @@
     "baseline_disposable_email_domains": {
       "url": "https://raw.githubusercontent.com/disposable-email-domains/disposable-email-domains/main/disposable_email_blocklist.conf",
       "license": "CC0-1.0",
-      "domains": 8870,
-      "sha256": "6f3df77c8bbca2148a9461ab2eb6e016daf5e0fe10461b792c6a23b04935778b",
+      "domains": 8883,
+      "sha256": "87bf71873ced728237615c546eff8fa36962dfa261d366e13ef9e0bad3224aad",
       "revision": null
     },
     "baseline_groundcat": {
@@ -40,15 +40,15 @@
     "community_disposable": {
       "url": "https://raw.githubusercontent.com/disposable/disposable-email-domains/master/domains.txt",
       "license": "MIT",
-      "domains": 75292,
-      "sha256": "281b2abc8b6aa5c818970cd85433cec24dc1a9c3427878b76b02c3530ba43cab",
+      "domains": 75293,
+      "sha256": "a1a2c3bf52aba746304418317f3369d32e23dd6a9d410783896eb7a017deb0cd",
       "revision": null
     },
     "community_fakefilter": {
       "url": "https://raw.githubusercontent.com/7c/fakefilter/main/txt/data.txt",
       "license": "BSD-3-Clause",
-      "domains": 4752,
-      "sha256": "e1a4f2e318fb0c387d2055dca1c3e10dffeed45130bb55d46b7ccefdc8699bdc",
+      "domains": 4754,
+      "sha256": "5408c2fdb1d0e50864e13b06f66775b49f5d39796ccea210da99829147b33c86",
       "revision": null
     },
     "community_burner_email_providers": {
@@ -68,8 +68,8 @@
     "community_eramitgupta": {
       "url": "https://raw.githubusercontent.com/eramitgupta/disposable-email/main/disposable_email.txt",
       "license": "MIT",
-      "domains": 126026,
-      "sha256": "2e74b6f86b75d24baf93090a7d9861ad20fe79a02974369266af730cbeeb7cea",
+      "domains": 126034,
+      "sha256": "af1038b8dc907983bc611a1c63e58093be08ec33a117c8d57fb52d17895f61bb",
       "revision": null
     },
     "community_mailchecker": {
@@ -118,7 +118,7 @@
       "url": "https://raw.githubusercontent.com/castle/disposable-email-domains/master/disposable-email-domains.txt",
       "license": "MIT",
       "domains": 1000,
-      "sha256": "8b3306a7f3bcfb145d97d460eac224c88754ff50c67630c678c6ebc01c3530e9",
+      "sha256": "fe64583e093c64d43c0d279cf7bca0bd1cdc8138130167e35c455fc372c38155",
       "revision": null
     },
     "community_tompec": {
@@ -131,15 +131,15 @@
     "community_ffraud": {
       "url": "https://raw.githubusercontent.com/FFraud-com/disposable-email-domains/main/disposable-email-domains.txt",
       "license": "MIT",
-      "domains": 219912,
-      "sha256": "e789ee85fc3839dcbd766c1e1a356565b9fc0a97605f17874cfb7d8fdc0b576c",
+      "domains": 219932,
+      "sha256": "97fa949250c50fcb151eec449a1eed19e030a8e804c2d5fbc0756f220e31a43f",
       "revision": null
     },
     "community_gtkppr": {
       "url": "https://raw.githubusercontent.com/gtkppr/email-disposable/main/disposable.txt",
       "license": "MIT",
-      "domains": 220577,
-      "sha256": "e45f8e17b3a0970c8715bcafe7f3a1cd2e6db5edf1c74223d841b83c5dc0048d",
+      "domains": 220589,
+      "sha256": "51a42bae0032df06ec64661d78db380bb7ad12faaf27b55841e3a171d4dfb9ff",
       "revision": null
     }
   }
