@@ -4,8 +4,8 @@
   "sample_size": 111,
   "coverage": {
     "baseline_disposable_email_domains": 12,
-    "baseline_groundcat": 2,
-    "baseline_union": 13,
+    "baseline_groundcat": 32,
+    "baseline_union": 43,
     "baseline_intersection": 1,
     "cleanmail": 111
   },
@@ -43,7 +43,7 @@
       "service": "AdGuard Temp Mail",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "hidesit.net"
     },
     {
       "domain": "suarj.com",
@@ -197,7 +197,7 @@
       "service": "User-provided disposable sample",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "temp-email.io"
     },
     {
       "domain": "beaconwarp.com",
@@ -218,7 +218,7 @@
       "service": "User-provided disposable sample",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "imnmail.com"
     },
     {
       "domain": "temp-mail.snaper24.com",
@@ -295,14 +295,14 @@
       "service": "TempForward",
       "region": "japan-search",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "tempforward.com"
     },
     {
       "domain": "emailxo.pro",
       "service": "Mohmal",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "emailxo.pro"
     },
     {
       "domain": "mohmal.cc",
@@ -477,21 +477,21 @@
       "service": "10MinuteMail.one",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "oqqaj.com"
     },
     {
       "domain": "xghff.com",
       "service": "10MinuteMail.one",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "xghff.com"
     },
     {
       "domain": "psovv.com",
       "service": "10MinuteMail.one",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "psovv.com"
     },
     {
       "domain": "obeamb.com",
@@ -540,7 +540,7 @@
       "service": "mail.cx",
       "region": "japan-search",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "9k3r.com"
     },
     {
       "domain": "yxhost.cn",
@@ -554,7 +554,7 @@
       "service": "mail.cx",
       "region": "japan-search",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "ddker.com"
     },
     {
       "domain": "sugtbt.com",
@@ -596,28 +596,28 @@
       "service": "kuku.lu / InstAddr",
       "region": "japan",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "miho.uk"
     },
     {
       "domain": "catcat.uk",
       "service": "kuku.lu / InstAddr",
       "region": "japan",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "catcat.uk"
     },
     {
       "domain": "savatv.com",
       "service": "kuku.lu / InstAddr",
       "region": "japan",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "savatv.com"
     },
     {
       "domain": "kywa.uk",
       "service": "kuku.lu / InstAddr",
       "region": "japan",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "kywa.uk"
     },
     {
       "domain": "vps42.erinn.biz",
@@ -631,14 +631,14 @@
       "service": "kuku.lu / InstAddr",
       "region": "japan",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "nemomo.org"
     },
     {
       "domain": "mepo.uk",
       "service": "kuku.lu / InstAddr",
       "region": "japan",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "mepo.uk"
     },
     {
       "domain": "recv19.erinn.biz",
@@ -694,98 +694,98 @@
       "service": "Temp-Mail.org",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "myfmcast.com"
     },
     {
       "domain": "siponly.com",
       "service": "Temp-Mail.org",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "siponly.com"
     },
     {
       "domain": "wqeather.com",
       "service": "Temp-Mail.org",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "wqeather.com"
     },
     {
       "domain": "tainela.com",
       "service": "Temp-Mail.org",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "tainela.com"
     },
     {
       "domain": "svndemo.com",
       "service": "Temp-Mail.org",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "svndemo.com"
     },
     {
       "domain": "webkugel.com",
       "service": "Temp-Mail.org",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "webkugel.com"
     },
     {
       "domain": "xhseeds.com",
       "service": "Temp-Mail.org",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "xhseeds.com"
     },
     {
       "domain": "tongtode.com",
       "service": "Temp-Mail.org",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "tongtode.com"
     },
     {
       "domain": "sudaley.com",
       "service": "Temp-Mail.org",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "sudaley.com"
     },
     {
       "domain": "wudiart.com",
       "service": "Temp-Mail.org",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "wudiart.com"
     },
     {
       "domain": "vicitro.com",
       "service": "Temp-Mail.org",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "vicitro.com"
     },
     {
       "domain": "ywbin.com",
       "service": "Temp-Mail.org",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "ywbin.com"
     },
     {
       "domain": "gouziben.com",
       "service": "Temp-Mail.org",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "gouziben.com"
     },
     {
       "domain": "sealjump.com",
       "service": "Temp-Mail.org",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "sealjump.com"
     }
   ]
 }
