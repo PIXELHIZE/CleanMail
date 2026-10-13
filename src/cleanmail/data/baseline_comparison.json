@@ -4,8 +4,8 @@
   "sample_size": 111,
   "coverage": {
     "baseline_disposable_email_domains": 12,
-    "baseline_groundcat": 32,
-    "baseline_union": 43,
+    "baseline_groundcat": 30,
+    "baseline_union": 41,
     "baseline_intersection": 1,
     "cleanmail": 111
   },
@@ -225,7 +225,7 @@
       "service": "User-provided disposable sample",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "temp-mail.snaper24.com"
     },
     {
       "domain": "vhm.cc",
@@ -302,7 +302,7 @@
       "service": "Mohmal",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": "emailxo.pro"
+      "baseline_groundcat": null
     },
     {
       "domain": "mohmal.cc",
@@ -596,7 +596,7 @@
       "service": "kuku.lu / InstAddr",
       "region": "japan",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": "miho.uk"
+      "baseline_groundcat": null
     },
     {
       "domain": "catcat.uk",
@@ -715,7 +715,7 @@
       "service": "Temp-Mail.org",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": "tainela.com"
+      "baseline_groundcat": null
     },
     {
       "domain": "svndemo.com",
