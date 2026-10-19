@@ -239,7 +239,7 @@
       "service": "LT의 이메일공방 / 리세마라 공방",
       "region": "korea",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "acucmc.com"
     },
     {
       "domain": "gamerhive.xyz",
@@ -477,7 +477,7 @@
       "service": "10MinuteMail.one",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": "oqqaj.com"
+      "baseline_groundcat": null
     },
     {
       "domain": "xghff.com",
@@ -561,7 +561,7 @@
       "service": "mail.cx",
       "region": "japan-search",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "sugtbt.com"
     },
     {
       "domain": "sssssssss.com",
@@ -603,7 +603,7 @@
       "service": "kuku.lu / InstAddr",
       "region": "japan",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": "catcat.uk"
+      "baseline_groundcat": null
     },
     {
       "domain": "savatv.com",
