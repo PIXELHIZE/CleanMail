@@ -211,7 +211,7 @@
       "service": "User-provided disposable sample",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "mailingdragon.com"
     },
     {
       "domain": "imnmail.com",
@@ -239,14 +239,14 @@
       "service": "LT의 이메일공방 / 리세마라 공방",
       "region": "korea",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": "acucmc.com"
+      "baseline_groundcat": null
     },
     {
       "domain": "gamerhive.xyz",
       "service": "LT의 이메일공방 / 리세마라 공방",
       "region": "korea",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "gamerhive.xyz"
     },
     {
       "domain": "netflow.info",
@@ -295,7 +295,7 @@
       "service": "TempForward",
       "region": "japan-search",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": "tempforward.com"
+      "baseline_groundcat": null
     },
     {
       "domain": "emailxo.pro",
@@ -435,7 +435,7 @@
       "service": "GuerrillaMail",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "verypaid.com"
     },
     {
       "domain": "yermail.net",
@@ -526,7 +526,7 @@
       "service": "mail.cx",
       "region": "japan-search",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "mail.cx"
     },
     {
       "domain": "mail.td",
@@ -554,7 +554,7 @@
       "service": "mail.cx",
       "region": "japan-search",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": "ddker.com"
+      "baseline_groundcat": null
     },
     {
       "domain": "sugtbt.com",
@@ -694,7 +694,7 @@
       "service": "Temp-Mail.org",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": "myfmcast.com"
+      "baseline_groundcat": null
     },
     {
       "domain": "siponly.com",
