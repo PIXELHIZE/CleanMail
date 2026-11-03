@@ -4,8 +4,8 @@
   "sample_size": 111,
   "coverage": {
     "baseline_disposable_email_domains": 12,
-    "baseline_groundcat": 30,
-    "baseline_union": 41,
+    "baseline_groundcat": 32,
+    "baseline_union": 43,
     "baseline_intersection": 1,
     "cleanmail": 111
   },
@@ -274,7 +274,7 @@
       "service": "LT의 이메일공방",
       "region": "korea",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "withu.me"
     },
     {
       "domain": "zzzzig.com",
@@ -659,7 +659,7 @@
       "service": "NiceMail / MailPorary",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "cobmk.com"
     },
     {
       "domain": "dhwem.com",
