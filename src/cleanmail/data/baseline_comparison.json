@@ -3,9 +3,9 @@
   "observed_at": "2026-08-18",
   "sample_size": 111,
   "coverage": {
-    "baseline_disposable_email_domains": 12,
+    "baseline_disposable_email_domains": 13,
     "baseline_groundcat": 32,
-    "baseline_union": 43,
+    "baseline_union": 44,
     "baseline_intersection": 1,
     "cleanmail": 111
   },
@@ -77,7 +77,7 @@
       "domain": "vtmpj.com",
       "service": "10MinuteMail",
       "region": "global",
-      "baseline_disposable_email_domains": null,
+      "baseline_disposable_email_domains": "vtmpj.com",
       "baseline_groundcat": null
     },
     {
