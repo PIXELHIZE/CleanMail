@@ -4,8 +4,8 @@
   "sample_size": 111,
   "coverage": {
     "baseline_disposable_email_domains": 13,
-    "baseline_groundcat": 32,
-    "baseline_union": 44,
+    "baseline_groundcat": 33,
+    "baseline_union": 45,
     "baseline_intersection": 1,
     "cleanmail": 111
   },
@@ -470,7 +470,7 @@
       "service": "10MinuteMail.one",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "10minutemail.one"
     },
     {
       "domain": "oqqaj.com",
