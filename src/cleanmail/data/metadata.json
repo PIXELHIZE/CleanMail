@@ -1,8 +1,8 @@
 {
   "name": "CleanMail",
   "dataset_version": "2026.11.10",
-  "generated_at": "2026-11-10T01:36:08.918Z",
-  "input_fingerprint": "0d147370dd88bd89007fe24a7e7c8e08a59ba7db5bfa893fbe1258a64c5690ab",
+  "generated_at": "2026-11-10T23:27:08.528Z",
+  "input_fingerprint": "6ab3a03b8239abf4892f6d7a745f089a490e97400b47f2b2903bf04fc761a2f1",
   "builder_policy_version": 8,
   "policy": {
     "core": "current or historical exact intersection of the two baseline repositories",
@@ -13,9 +13,9 @@
   },
   "community_quorum": 2,
   "counts": {
-    "all_blocked": 230319,
+    "all_blocked": 230377,
     "core": 2055,
-    "community": 228242,
+    "community": 228300,
     "verified": 111,
     "allowlist": 34,
     "mx_patterns": 25,
@@ -40,8 +40,8 @@
     "community_disposable": {
       "url": "https://raw.githubusercontent.com/disposable/disposable-email-domains/master/domains.txt",
       "license": "MIT",
-      "domains": 98976,
-      "sha256": "9b12dcbea3be4bde39da0dacf20bf52c57902ecac903f96d5eaa156f7d6e6d99",
+      "domains": 102763,
+      "sha256": "7e12162313c35153d233864950174342aac8291a28f2b78414dbe03ab7118660",
       "revision": null
     },
     "community_fakefilter": {
@@ -68,8 +68,8 @@
     "community_eramitgupta": {
       "url": "https://raw.githubusercontent.com/eramitgupta/disposable-email/main/disposable_email.txt",
       "license": "MIT",
-      "domains": 142142,
-      "sha256": "9721cb96dd52b767bd33652394d83ebceb1f6ce45077a059ccbb7482a1fe2433",
+      "domains": 142191,
+      "sha256": "1ae2d730ac704dcb2a5d2be9e5ddd3651429dad1467a881a1f955bcddd0dc7e4",
       "revision": null
     },
     "community_mailchecker": {
@@ -118,7 +118,7 @@
       "url": "https://raw.githubusercontent.com/castle/disposable-email-domains/master/disposable-email-domains.txt",
       "license": "MIT",
       "domains": 1000,
-      "sha256": "a1d72225a6c9f395144f9e2930f814f8a5d02315dd766d640149d3b4b48484a7",
+      "sha256": "dadebb7a85d959deb6d0471b6eaf10c038589cf69bb4b4cfb0062bf2ba99d8c7",
       "revision": null
     },
     "community_tompec": {
@@ -138,8 +138,8 @@
     "community_gtkppr": {
       "url": "https://raw.githubusercontent.com/gtkppr/email-disposable/main/disposable.txt",
       "license": "MIT",
-      "domains": 239300,
-      "sha256": "bf71aaa1a974777ad733ce653afcd5bee23357ad117a689027ce2f26f105aa10",
+      "domains": 239835,
+      "sha256": "59fb43ce082771ff2ce71255f9cc620569b4cf7fad4ed5f281672eb50c64d8ed",
       "revision": null
     }
   }
