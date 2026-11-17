@@ -4,9 +4,9 @@
   "sample_size": 111,
   "coverage": {
     "baseline_disposable_email_domains": 13,
-    "baseline_groundcat": 33,
+    "baseline_groundcat": 32,
     "baseline_union": 45,
-    "baseline_intersection": 1,
+    "baseline_intersection": 0,
     "cleanmail": 111
   },
   "rows": [
@@ -106,7 +106,7 @@
       "service": "TempEmail.cc",
       "region": "korea-search",
       "baseline_disposable_email_domains": "icmans.com",
-      "baseline_groundcat": "icmans.com"
+      "baseline_groundcat": null
     },
     {
       "domain": "emalupe.com",
@@ -260,7 +260,7 @@
       "service": "LT의 이메일공방",
       "region": "korea",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "nord.pw"
     },
     {
       "domain": "maya.pw",
@@ -519,7 +519,7 @@
       "service": "CleanTempMail",
       "region": "japan-search",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": null
+      "baseline_groundcat": "cleantempmail.com"
     },
     {
       "domain": "mail.cx",
@@ -659,7 +659,7 @@
       "service": "NiceMail / MailPorary",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": "cobmk.com"
+      "baseline_groundcat": null
     },
     {
       "domain": "dhwem.com",
@@ -750,7 +750,7 @@
       "service": "Temp-Mail.org",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": "sudaley.com"
+      "baseline_groundcat": null
     },
     {
       "domain": "wudiart.com",
