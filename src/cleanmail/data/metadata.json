@@ -1,8 +1,8 @@
 {
   "name": "CleanMail",
-  "dataset_version": "2026.11.20",
-  "generated_at": "2026-11-20T00:40:18.122Z",
-  "input_fingerprint": "23545ff93ae09faba9825dc54980b39914651b361a09c59291c425b62d0d8a35",
+  "dataset_version": "2026.11.21",
+  "generated_at": "2026-11-21T00:00:06.272Z",
+  "input_fingerprint": "011d5bafff4f72643443defac03f19d5c94550e30ae8e59d7e31f296c82cf765",
   "builder_policy_version": 8,
   "policy": {
     "core": "current or historical exact intersection of the two baseline repositories",
@@ -13,9 +13,9 @@
   },
   "community_quorum": 2,
   "counts": {
-    "all_blocked": 236669,
+    "all_blocked": 236678,
     "core": 2067,
-    "community": 234581,
+    "community": 234590,
     "verified": 111,
     "allowlist": 34,
     "mx_patterns": 25,
@@ -68,8 +68,8 @@
     "community_eramitgupta": {
       "url": "https://raw.githubusercontent.com/eramitgupta/disposable-email/main/disposable_email.txt",
       "license": "MIT",
-      "domains": 148227,
-      "sha256": "7e584a7cb6284b086ec43a392e917bdbcaf8d0e24cf639c6ea5349f78fb7d1c6",
+      "domains": 148358,
+      "sha256": "2b3bb85ccd5503dce22b22a0433817a4d5899a9821fa05f093353fedc455e445",
       "revision": null
     },
     "community_mailchecker": {
@@ -118,7 +118,7 @@
       "url": "https://raw.githubusercontent.com/castle/disposable-email-domains/master/disposable-email-domains.txt",
       "license": "MIT",
       "domains": 1000,
-      "sha256": "3fb508d55fe89a48d1a06014b7763da8ebf526ce2cd8e7450070c3d10efabbe7",
+      "sha256": "b3429b52cd43efdab4a3b1330ea9ac8d99c207dfcef08f782ebe5ad52564b008",
       "revision": null
     },
     "community_tompec": {
@@ -138,8 +138,8 @@
     "community_gtkppr": {
       "url": "https://raw.githubusercontent.com/gtkppr/email-disposable/main/disposable.txt",
       "license": "MIT",
-      "domains": 245619,
-      "sha256": "52101a5ffdda28c03fedcacd32627c7199842b54a5a6d36c9d8002dbd2c4828e",
+      "domains": 245629,
+      "sha256": "644ed490cf28abdc546f58049e83c6cdd94359ff5aed7754c236f7a4d993000d",
       "revision": null
     }
   }
