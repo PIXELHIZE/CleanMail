@@ -4,8 +4,8 @@
   "sample_size": 111,
   "coverage": {
     "baseline_disposable_email_domains": 13,
-    "baseline_groundcat": 32,
-    "baseline_union": 45,
+    "baseline_groundcat": 27,
+    "baseline_union": 40,
     "baseline_intersection": 0,
     "cleanmail": 111
   },
@@ -43,7 +43,7 @@
       "service": "AdGuard Temp Mail",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": "hidesit.net"
+      "baseline_groundcat": null
     },
     {
       "domain": "suarj.com",
@@ -435,7 +435,7 @@
       "service": "GuerrillaMail",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": "verypaid.com"
+      "baseline_groundcat": null
     },
     {
       "domain": "yermail.net",
@@ -491,7 +491,7 @@
       "service": "10MinuteMail.one",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": "psovv.com"
+      "baseline_groundcat": null
     },
     {
       "domain": "obeamb.com",
@@ -540,7 +540,7 @@
       "service": "mail.cx",
       "region": "japan-search",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": "9k3r.com"
+      "baseline_groundcat": null
     },
     {
       "domain": "yxhost.cn",
@@ -771,7 +771,7 @@
       "service": "Temp-Mail.org",
       "region": "global",
       "baseline_disposable_email_domains": null,
-      "baseline_groundcat": "ywbin.com"
+      "baseline_groundcat": null
     },
     {
       "domain": "gouziben.com",
